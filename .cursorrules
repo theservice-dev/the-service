@@ -1,0 +1,43 @@
+---
+description: Enforce Shopify Liquid and Horizon Theme best practices
+globs: **/*.liquid, **/assets/*.css, **/assets/*.js, **/sections/*.json
+---
+
+# Shopify Development Rules
+
+- **Liquid Logic:** 
+  - Wrap all logic in `{%- ... -%}` to control whitespace.
+  - Use `render` instead of `include` (deprecated).
+  - Check for object existence before outputting: `{% if product.featured_image %}...{% endif %}`.
+
+- **Schema Construction:**
+  - Every section must include a `"presets": [{"name": "Default"}]` block.
+  - Use clear, descriptive `id` and `label` fields in JSON schemas.
+  - Always include `info` strings for complex merchant settings.
+
+- **CSS/JavaScript:**
+  - Do not use inline styles; use Tailwind utility classes or BEM-named classes in CSS files.
+  - Use `defer` for all script tags in `theme.liquid`.
+  - JS should be modular and scoped:
+    - Use `class CustomSection extends HTMLElement` for sections.
+    - Wrap legacy scripts in IIFEs: `(function() { ... })();`.
+    - Use `<script type="module">` for modern code.
+  - Keep JS bundles under 16KB. Avoid jQuery and heavy libraries.
+
+- **Accessibility (WCAG 2.1 AA):**
+  - **Semantic HTML:** Use correct tags (`<button>`, `<a>`, `<nav>`, `<header>`, `<footer>`, `<h1>`-`<h6>`).
+  - **Headings:** Maintain strictly sequential heading levels (no skipping H2 to H4).
+  - **Images:** Always provide `alt` attributes. Use empty `alt=""` for decorative images.
+  - **Focus:** Ensure visible focus states for all interactive elements (min 2px outline).
+  - **Contrast:** Verify color contrast meets 4.5:1 ratio.
+
+- **Performance:**
+  - Prefer CSS over JavaScript for animations and interactivity.
+  - Use `loading="lazy"` for off-screen images; `loading="eager"` for above-the-fold.
+  - Use `srcset` and `sizes` for responsive images.
+
+- **Anti-Patterns to Avoid:**
+  - No `jQuery`. Use vanilla JS and Fetch API.
+  - No hardcoded IDs or Handles.
+  - Do not edit `theme.css` directly; use section-specific `<style>` or `assets/custom.css`.
+  - Do not use `window.onload`; use `defer` or `DOMContentLoaded`.
