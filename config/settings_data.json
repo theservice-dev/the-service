@@ -7,10 +7,13 @@
  * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
- {
+{
   "current": {
+    "logo": "shopify://shop_images/The_service_Logo_2x_e4db2c8c-fe3c-4d37-a2ab-9b1a191c072c.png",
+    "logo_inverse": "shopify://shop_images/The_service_Logo_2x_e4db2c8c-fe3c-4d37-a2ab-9b1a191c072c.png",
     "logo_height": 36,
     "logo_height_mobile": 28,
+    "favicon": "shopify://shop_images/The_service_Logo_2x_e4db2c8c-fe3c-4d37-a2ab-9b1a191c072c.png",
     "type_body_font": "inter_n4",
     "type_subheading_font": "inter_n5",
     "type_heading_font": "inter_n7",
@@ -54,7 +57,6 @@
     "button_border_radius_primary": 14,
     "secondary_button_border_width": 1,
     "button_border_radius_secondary": 14,
-    "button_font_weight_secondary": "default",
     "cart_type": "drawer",
     "cart_price_font": "subheading",
     "show_cart_note": false,
@@ -77,6 +79,7 @@
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
     "variant_button_width": "equal-width-buttons",
+    "button_font_weight_secondary": "default",
     "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
