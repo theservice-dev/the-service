@@ -85,7 +85,7 @@
     "variant_swatch_radius": 32,
     "variant_button_border_width": 1,
     "variant_button_radius": 14,
-    "variant_button_width": "equal-width-buttons",
+    "variant_button_width": "default-width-buttons",
     "button_font_weight_secondary": "default",
     "content_for_index": [],
     "blocks": {
