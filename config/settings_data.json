@@ -77,7 +77,7 @@
     "quick_add": true,
     "mobile_quick_add": false,
     "quick_add_color_scheme": "scheme-5",
-    "product_corner_radius": 0,
+    "product_corner_radius": 4,
     "card_corner_radius": 4,
     "show_variant_image": false,
     "variant_swatch_width": 34,
