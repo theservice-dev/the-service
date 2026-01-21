@@ -45,7 +45,7 @@
     "type_size_h6": "12",
     "type_line_height_h6": "display-loose",
     "page_width": "narrow",
-    "page_transition_enabled": false,
+    "page_transition_enabled": true,
     "transition_to_main_product": false,
     "card_hover_effect": "none",
     "badge_position": "top-right",
@@ -70,6 +70,8 @@
     "currency_code_enabled_product_pages": false,
     "currency_code_enabled_product_cards": false,
     "currency_code_enabled_cart_items": false,
+    "mobile_quick_add": false,
+    "quick_add_color_scheme": "scheme-1",
     "product_corner_radius": 0,
     "card_corner_radius": 4,
     "show_variant_image": false,
@@ -81,6 +83,23 @@
     "variant_button_width": "equal-width-buttons",
     "button_font_weight_secondary": "default",
     "content_for_index": [],
+    "blocks": {
+      "13674582811712284939": {
+        "type": "shopify://apps/qstomizer-custom-products/blocks/qstomizer-embedded/91ddef34-1f34-4141-843a-d613c0433aef",
+        "disabled": false,
+        "settings": {
+          "checkprecustom": true,
+          "textonbtn": "Customize",
+          "btnclass": "btn",
+          "apply_custom_styles": false,
+          "button_border_radius": 0,
+          "button_bg_color": "#FF8A00",
+          "text_color": "#111111",
+          "btnclassremove": "",
+          "elmstohide": ""
+        }
+      }
+    },
     "color_schemes": {
       "scheme-1": {
         "settings": {
@@ -240,7 +259,7 @@
       },
       "scheme-5": {
         "settings": {
-          "background": "#333333",
+          "background": "#111111",
           "foreground_heading": "#ffffff",
           "foreground": "#ffffff",
           "primary": "#ffffff",
