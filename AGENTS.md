@@ -43,3 +43,8 @@
 - **Validation:** Before finishing any task, run `validate_theme` via the Shopify Dev MCP and `shopify theme check`.
 - **API Knowledge:** If unsure about a Liquid filter or GraphQL field, use the `learn_shopify_api` tool.
 - **Testing:** Perform manual accessibility audits using keyboard navigation and screen readers.
+
+## 8. Git Commit Standards
+- **Format:** Use Conventional Commits: `<type>(<scope>): <subject>`
+- **Types:** `feat` (new feature), `fix` (bug fix), `docs` (documentation), `style` (formatting), `refactor` (code restructuring), `perf` (performance), `test` (tests), `chore` (build/tools).
+- **Body:** Include a brief explanation of *why* the change was made to help future agents understand context.
