@@ -22,11 +22,18 @@
 {% if section.settings.logo_position == 'center' %}
   <style>
     @media screen and (min-width: 750px) {
+      .header:has(.header__column--center .header-logo) {
+        z-index: calc(var(--layer-header-menu) + 1);
+      }
+      .header__column--center .header-logo {
+        position: relative;
+        z-index: calc(var(--layer-header-menu) + 2);
+      }
       .header__column--center .header-logo__image {
         transform: scale(2.6);
         transform-origin: center 10%;
         position: relative;
-        z-index: 10;
+        z-index: calc(var(--layer-header-menu) + 3);
       }
     }
   </style>
