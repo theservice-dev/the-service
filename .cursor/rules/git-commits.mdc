@@ -1,0 +1,48 @@
+# Git Commit Standards
+
+Ensures commit messages follow Conventional Commits specification for better history tracking and agent context.
+
+<rule>
+name: git_commit_standards
+description: Enforce Conventional Commits specification for git commit messages
+filters:
+  - type: event
+    pattern: "commit"
+
+actions:
+  - type: suggest
+    message: |
+      **Git Commit Message Standards (Conventional Commits)**
+
+      All commit messages must follow the Conventional Commits format:
+      `<type>(<scope>): <short summary>`
+
+      **Types:**
+      - `feat`: A new feature
+      - `fix`: A bug fix
+      - `docs`: Documentation only changes
+      - `style`: Changes that do not affect the meaning of the code (white-space, formatting, etc)
+      - `refactor`: A code change that neither fixes a bug nor adds a feature
+      - `perf`: A code change that improves performance
+      - `test`: Adding missing tests or correcting existing tests
+      - `chore`: Changes to the build process or auxiliary tools and libraries
+
+      **Scope:**
+      Optional noun describing the section of the codebase affected (e.g., `header`, `cart`, `api`, `styles`).
+
+      **Summary:**
+      Short, imperative description of the change (lower case, no period at end).
+
+      **Body (Optional but Recommended):**
+      Explain the "why" and "how" of the change. This is critical for AI agents to understand context.
+
+      **Examples:**
+      - `feat(cart): add ajax add-to-cart functionality`
+      - `fix(nav): correct z-index overlap on mobile menu`
+      - `refactor(schema): standardize block settings naming`
+      - `docs: update AGENTS.md with commit standards`
+
+metadata:
+  priority: high
+  version: 1.0
+</rule>

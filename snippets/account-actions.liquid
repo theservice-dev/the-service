@@ -80,10 +80,71 @@
             {{ 'content.account_profile' | t }}
           </a>
         </li>
+        <li class="account-actions__list-item">
+          <a
+            href="{{ routes.cart_url }}"
+            class="account-actions__link button-secondary"
+          >
+            <span
+              class="account-actions__icon"
+              aria-hidden="true"
+            >
+              {{- 'icon-cart.svg' | inline_asset_content -}}
+            </span>
+            {{ 'templates.cart.cart' | t }}
+          </a>
+        </li>
       </ul>
     </nav>
+
+    <div class="account-actions__social">
+      {% assign social_accounts = 'Instagram, TikTok, Facebook, Twitter, Pinterest, Snapchat, Tumblr, YouTube, Vimeo' | split: ', ' %}
+      <ul class="list-unstyled list-social" role="list">
+        {% for social in social_accounts %}
+          {% assign social_handle = social | handleize %}
+          {% capture social_link %}social_{{ social_handle }}_link{% endcapture %}
+          {% capture social_icon %}icon-{{ social_handle }}{% endcapture %}
+          
+          {% if settings[social_link] != blank %}
+            <li class="list-social__item">
+              <a href="{{ settings[social_link] }}" class="link list-social__link" aria-describedby="a11y-external-message">
+                <span class="svg-wrapper">
+                  {%- render 'icon', icon: social_handle -%}
+                </span>
+                <span class="visually-hidden">{{ social }}</span>
+              </a>
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 </div>
+
+{% stylesheet %}
+  .account-actions__social {
+    padding: var(--padding-xl);
+    border-top: 1px solid var(--color-border);
+    margin-top: auto;
+  }
+
+  .list-social {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--gap-md);
+  }
+
+  .list-social__link {
+    display: flex;
+    padding: var(--padding-xs);
+    color: var(--color-foreground);
+  }
+
+  .list-social__link .svg-wrapper {
+    width: var(--icon-size-md);
+    height: var(--icon-size-md);
+  }
 
 {% stylesheet %}
   .account-actions {
