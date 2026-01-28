@@ -19,6 +19,19 @@
   endif
 %}
 
+{% if section.settings.logo_position == 'center' %}
+  <style>
+    @media screen and (min-width: 750px) {
+      .header__column--center .header-logo__image {
+        transform: scale(2.0);
+        transform-origin: center 30%;
+        position: relative;
+        z-index: 10;
+      }
+    }
+  </style>
+{% endif %}
+
 {% comment %}
   Output all logo variants, use CSS to hide/show the appropriate one
   based on the .header[transparent] selector
