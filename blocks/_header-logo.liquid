@@ -34,6 +34,11 @@
         transform-origin: center 10%;
         position: relative;
         z-index: calc(var(--layer-header-menu) + 3);
+        transition: transform var(--animation-speed) var(--animation-easing);
+      }
+      /* Reduce size by 25% when menu is open: 2.6 * 0.75 = 1.95 */
+      .header:has(.menu-list__link[aria-expanded='true'], .mega-menu__list:hover) .header__column--center .header-logo__image {
+        transform: scale(1.25);
       }
     }
     
@@ -50,6 +55,11 @@
         transform-origin: center 20%;
         position: relative;
         z-index: calc(var(--layer-header-menu) + 3);
+        transition: transform var(--animation-speed) var(--animation-easing);
+      }
+      /* Reduce size by 25% when mobile menu is open: 2.0 * 0.75 = 1.5 */
+      .header:has(#Details-menu-drawer-container[open], .menu-list__link[aria-expanded='true']) .header-logo__image {
+        transform: scale(1.5);
       }
     }
   </style>
