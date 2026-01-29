@@ -46,7 +46,7 @@
     "type_line_height_h6": "display-loose",
     "page_width": "normal",
     "page_transition_enabled": true,
-    "transition_to_main_product": false,
+    "transition_to_main_product": true,
     "card_hover_effect": "none",
     "badge_position": "top-right",
     "badge_corner_radius": 100,
