@@ -36,6 +36,22 @@
         z-index: calc(var(--layer-header-menu) + 3);
       }
     }
+    
+    @media screen and (max-width: 749px) {
+      .header:has(.header-logo) {
+        z-index: calc(var(--layer-header-menu) + 1);
+      }
+      .header-logo {
+        position: relative;
+        z-index: calc(var(--layer-header-menu) + 2);
+      }
+      .header-logo__image {
+        transform: scale(2.0);
+        transform-origin: center 20%;
+        position: relative;
+        z-index: calc(var(--layer-header-menu) + 3);
+      }
+    }
   </style>
 {% endif %}
 
