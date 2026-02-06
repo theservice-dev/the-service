@@ -1,0 +1,207 @@
+{% liquid
+  assign image_base_url = 'https://cdn.shopify.com/s/files/1/0749/4251/3290/files/Hero-A-1b.png?v=1770320017'
+  assign image_reveal_url = 'https://cdn.shopify.com/s/files/1/0749/4251/3290/files/Hero-A-2.png?v=1770320018'
+  
+  if section.settings.image_base != blank
+    assign base_image_src = section.settings.image_base | image_url: width: 3840
+  else
+    assign base_image_src = image_base_url
+  endif
+
+  if section.settings.image_reveal != blank
+    assign reveal_image_src = section.settings.image_reveal | image_url: width: 3840
+  else
+    assign reveal_image_src = image_reveal_url
+  endif
+%}
+
+<style>
+  .section-{{ section.id }} {
+    position: relative;
+    width: 100vw;
+    height: {{ section.settings.section_height }};
+    overflow: hidden;
+    background-color: #000;
+    cursor: none; /* Hide default cursor for custom follower */
+    --mask-size: {{ section.settings.mask_size }}px;
+    opacity: 0; /* Initial state for animation */
+    visibility: hidden;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+
+  .hero-mask__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    user-select: none;
+    will-change: transform; /* Hint for animation performance */
+  }
+
+  .hero-mask__reveal-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    
+    /* Using CSS variables updated by GSAP for the mask position */
+    -webkit-mask-image: radial-gradient(circle var(--mask-size) at var(--x, 50%) var(--y, 50%), black 100%, transparent 100%);
+    mask-image: radial-gradient(circle var(--mask-size) at var(--x, 50%) var(--y, 50%), black 100%, transparent 100%);
+  }
+
+  /* Custom cursor circle */
+  .hero-mask__cursor {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border: 2px solid white;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10;
+    mix-blend-mode: difference;
+    transform: translate(-50%, -50%);
+    opacity: 0; /* Hidden initially until mouse enter */
+  }
+</style>
+
+<div class="section-{{ section.id }} hero-mask-section" id="HeroMask-{{ section.id }}">
+  <!-- Base Image (Bottom Layer) -->
+  <img src="{{ base_image_src }}" alt="Hero Base" class="hero-mask__image hero-mask__base" width="3840" height="2160" loading="eager">
+
+  <!-- Reveal Image (Top Layer - Masked) -->
+  <div class="hero-mask__reveal-wrapper">
+    <img src="{{ reveal_image_src }}" alt="Hero Reveal" class="hero-mask__image hero-mask__reveal" width="3840" height="2160" loading="eager">
+  </div>
+  
+  <!-- Custom Cursor -->
+  <div class="hero-mask__cursor"></div>
+</div>
+
+<!-- Load GSAP -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const section = document.querySelector("#HeroMask-{{ section.id }}");
+    const sectionContainer = document.querySelector(".section-{{ section.id }}");
+    const revealWrapper = section.querySelector(".hero-mask__reveal-wrapper");
+    const cursor = section.querySelector(".hero-mask__cursor");
+    const images = section.querySelectorAll(".hero-mask__image");
+
+    if (!section || !revealWrapper || !cursor) return;
+
+    // Entrance Animation
+    const tl = gsap.timeline();
+    tl.to(sectionContainer, { autoAlpha: 1, duration: 0.8, ease: "power2.out" })
+      .from(images, { scale: 1.1, duration: 1.2, ease: "power2.out" }, "<");
+
+    // Use GSAP quickTo for high-performance updates
+    const xMaskTo = gsap.quickTo(revealWrapper, "--x", { duration: 0.2, ease: "power3" });
+    const yMaskTo = gsap.quickTo(revealWrapper, "--y", { duration: 0.2, ease: "power3" });
+    
+    const xCursorTo = gsap.quickTo(cursor, "x", { duration: 0.1, ease: "power3" });
+    const yCursorTo = gsap.quickTo(cursor, "y", { duration: 0.1, ease: "power3" });
+
+    // Initial positioning
+    const rect = section.getBoundingClientRect();
+    const initialX = rect.width / 2;
+    const initialY = rect.height / 2;
+    
+    // Set initial values
+    revealWrapper.style.setProperty('--x', `${initialX}px`);
+    revealWrapper.style.setProperty('--y', `${initialY}px`);
+    gsap.set(cursor, { x: initialX, y: initialY });
+
+    section.addEventListener("mousemove", (e) => {
+      const rect = section.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      // Update Mask & Cursor
+      xMaskTo(x);
+      yMaskTo(y);
+      xCursorTo(x);
+      yCursorTo(y);
+    });
+    
+    section.addEventListener("mouseenter", () => {
+      gsap.to(cursor, { autoAlpha: 1, duration: 0.3 });
+    });
+    
+    section.addEventListener("mouseleave", () => {
+       gsap.to(cursor, { autoAlpha: 0, duration: 0.3 });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Hero Mask",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image_base",
+      "label": "Base Image",
+      "info": "The image visible by default (background)."
+    },
+    {
+      "type": "image_picker",
+      "id": "image_reveal",
+      "label": "Reveal Image",
+      "info": "The image revealed inside the mask."
+    },
+    {
+      "type": "range",
+      "id": "mask_size",
+      "min": 100,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "label": "Mask Size",
+      "default": 300
+    },
+    {
+      "type": "select",
+      "id": "section_height",
+      "label": "Section Height",
+      "options": [
+        {
+          "value": "50vh",
+          "label": "Small (50vh)"
+        },
+        {
+          "value": "60vh",
+          "label": "Medium (60vh)"
+        },
+        {
+          "value": "70vh",
+          "label": "Large (70vh)"
+        },
+        {
+          "value": "100vh",
+          "label": "Full Screen (100vh)"
+        }
+      ],
+      "default": "60vh"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Mask"
+    }
+  ]
+}
+{% endschema %}
