@@ -101,7 +101,7 @@
   }
 </style>
 
-<div class="section-{{ section.id }} hero-mask-section" id="HeroMask-{{ section.id }}">
+<div class="section-{{ section.id }} hero-mask-section" id="HeroMask-{{ section.id }}" data-grow-on-click="{{ section.settings.grow_mask_on_click }}" data-grow-size="{{ section.settings.mask_grow_size }}">
   <!-- Base Image (Bottom Layer) -->
   <img src="{{ base_image_src }}" alt="Hero Base" class="hero-mask__image hero-mask__base" width="3840" height="2160" loading="eager">
 
@@ -114,9 +114,9 @@
         <feDisplacementMap in="SourceGraphic" in2="noise" scale="30" />
       </filter>
       
-      <!-- Mask Definition -->
+      <!-- Mask Definition (r starts at 0, animated to full size on load) -->
       <mask id="mask-{{ section.id }}">
-        <circle id="mask-circle-{{ section.id }}" cx="50%" cy="50%" r="{{ section.settings.mask_size }}" fill="white" filter="url(#turbulence-{{ section.id }})" />
+        <circle id="mask-circle-{{ section.id }}" cx="50%" cy="50%" r="0" fill="white" filter="url(#turbulence-{{ section.id }})" data-mask-size="{{ section.settings.mask_size }}" />
       </mask>
     </defs>
     
@@ -142,10 +142,13 @@
     
     if (!section || !maskCircle || !cursor) return;
 
-    // Entrance Animation
+    const maskSize = Number(maskCircle.getAttribute("data-mask-size")) || 300;
+
+    // Entrance Animation: fade in section, then grow mask from 0 to full size and scale base image
     const tl = gsap.timeline();
     tl.to(sectionContainer, { autoAlpha: 1, duration: 0.8, ease: "power2.out" })
-      .from(baseImage, { scale: 1.1, duration: 1.2, ease: "power2.out" }, "<");
+      .to(maskCircle, { attr: { r: maskSize }, duration: 1.2, ease: "power2.out" }, "-=0.3")
+      .from(baseImage, { scale: 1.1, duration: 1.2, ease: "power2.out" }, "-=1.2");
 
     // Continuous turbulence animation
     if (turbulence) {
@@ -198,6 +201,33 @@
     section.addEventListener("mouseleave", () => {
        gsap.to(cursor, { autoAlpha: 0, duration: 0.3 });
     });
+
+    // Grow mask on click (optional)
+    const growOnClick = section.getAttribute("data-grow-on-click") === "true";
+    const growSize = Number(section.getAttribute("data-grow-size")) || 400;
+    let isGrown = false;
+
+    if (growOnClick) {
+      section.style.cursor = "pointer";
+      section.addEventListener("click", (e) => {
+        const rect = section.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        if (isGrown) {
+          gsap.to(maskCircle, { attr: { r: maskSize }, duration: 0.5, ease: "power2.out" });
+          maskPos.x = x;
+          maskPos.y = y;
+          xMaskObjTo(x);
+          yMaskObjTo(y);
+          isGrown = false;
+        } else {
+          xMaskObjTo(x);
+          yMaskObjTo(y);
+          gsap.to(maskCircle, { attr: { r: growSize }, duration: 0.5, ease: "power2.out" });
+          isGrown = true;
+        }
+      });
+    }
   });
 </script>
 
@@ -228,6 +258,23 @@
       "unit": "px",
       "label": "Mask Size",
       "default": 300
+    },
+    {
+      "type": "checkbox",
+      "id": "grow_mask_on_click",
+      "label": "Grow mask on click",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "mask_grow_size",
+      "min": 200,
+      "max": 800,
+      "step": 20,
+      "unit": "px",
+      "label": "Size when grown",
+      "default": 500,
+      "info": "Radius the mask grows to when section is clicked (if grow on click is enabled)."
     },
     {
       "type": "header",
