@@ -41,6 +41,37 @@
   endif
   assign object_position = pos_x | append: ' ' | append: pos_y
   assign svg_preserve_aspect = svg_x | append: svg_y | append: ' slice'
+
+  comment
+    Content overlay: font family from preset (maps to theme CSS variables).
+  endcomment
+  assign title_font_var = '--font-heading--family'
+  if section.settings.title_font == 'body'
+    assign title_font_var = '--font-body--family'
+  elsif section.settings.title_font == 'subheading'
+    assign title_font_var = '--font-subheading--family'
+  elsif section.settings.title_font == 'accent'
+    assign title_font_var = '--font-accent--family'
+  endif
+  assign subtitle_font_var = '--font-heading--family'
+  if section.settings.subtitle_font == 'body'
+    assign subtitle_font_var = '--font-body--family'
+  elsif section.settings.subtitle_font == 'subheading'
+    assign subtitle_font_var = '--font-subheading--family'
+  elsif section.settings.subtitle_font == 'accent'
+    assign subtitle_font_var = '--font-accent--family'
+  endif
+
+  assign content_align = section.settings.content_alignment
+  assign content_flex = 'center'
+  assign content_text = 'center'
+  if content_align == 'left'
+    assign content_flex = 'flex-start'
+    assign content_text = 'left'
+  elsif content_align == 'right'
+    assign content_flex = 'flex-end'
+    assign content_text = 'right'
+  endif
 %}
 
 <style>
@@ -99,9 +130,58 @@
     transform: translate(-50%, -50%);
     opacity: 0; /* Hidden initially until mouse enter */
   }
+
+  /* Content overlay */
+  .section-{{ section.id }} .hero-mask__content {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: {{ content_flex }};
+    padding: 1.5rem;
+    pointer-events: none;
+    color: #fff;
+  }
+  .section-{{ section.id }} .hero-mask__content .hero-mask__cta { pointer-events: auto; }
+  .section-{{ section.id }} .hero-mask__content-inner {
+    max-width: 42rem;
+    text-align: {{ content_text }};
+  }
+  .section-{{ section.id }} .hero-mask__title {
+    font-family: var({{ title_font_var }});
+    font-size: {{ section.settings.title_font_size }};
+    margin: 0 0 0.5rem;
+    color: inherit;
+  }
+  .section-{{ section.id }} .hero-mask__subtitle {
+    font-family: var({{ subtitle_font_var }});
+    font-size: {{ section.settings.subtitle_font_size }};
+    margin: 0 0 1rem;
+    color: inherit;
+    opacity: 0.95;
+  }
+  .section-{{ section.id }} .hero-mask__cta {
+    display: inline-block;
+    margin-top: 0.25rem;
+    padding: 0.75rem 1.5rem;
+    font-size: {{ section.settings.cta_font_size }};
+    font-family: var(--font-body--family);
+    text-decoration: none;
+    border-radius: var(--style-border-radius-buttons-primary, 0.25rem);
+    border: 2px solid var(--color-primary-button-border, rgba(255, 255, 255, 0.9));
+    background: var(--color-primary-button-background, #fff);
+    color: var(--color-primary-button-text, #000);
+    transition: opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+  }
+  .section-{{ section.id }} .hero-mask__cta:hover {
+    background: var(--color-primary-button-hover-background, rgba(255, 255, 255, 0.9));
+    color: var(--color-primary-button-hover-text, #000);
+  }
 </style>
 
-<div class="section-{{ section.id }} hero-mask-section" id="HeroMask-{{ section.id }}" data-grow-on-click="{{ section.settings.grow_mask_on_click }}" data-grow-size="{{ section.settings.mask_grow_size }}">
+<div class="section-{{ section.id }} hero-mask-section" id="HeroMask-{{ section.id }}" data-grow-on-click="{{ section.settings.grow_mask_on_click }}" data-grow-size="{{ section.settings.mask_grow_size }}" data-rest-size="{{ section.settings.mask_rest_size }}">
   <!-- Base Image (Bottom Layer) -->
   <img src="{{ base_image_src }}" alt="Hero Base" class="hero-mask__image hero-mask__base" width="3840" height="2160" loading="eager">
 
@@ -124,6 +204,25 @@
     <image href="{{ reveal_image_src }}" width="100%" height="100%" preserveAspectRatio="{{ svg_preserve_aspect }}" mask="url(#mask-{{ section.id }})" />
   </svg>
   
+  <!-- Content overlay (title, subtitle, CTA) -->
+  {% if section.settings.title != blank or section.settings.subtitle != blank or section.settings.cta_label != blank %}
+  <div class="hero-mask__content" aria-labelledby="hero-mask-title-{{ section.id }}">
+    <div class="hero-mask__content-inner">
+      {% if section.settings.title != blank %}
+        <h2 id="hero-mask-title-{{ section.id }}" class="hero-mask__title">{{ section.settings.title }}</h2>
+      {% endif %}
+      {% if section.settings.subtitle != blank %}
+        <p class="hero-mask__subtitle">{{ section.settings.subtitle }}</p>
+      {% endif %}
+      {% if section.settings.cta_label != blank %}
+        <a href="{{ section.settings.cta_link | default: '#' }}" class="hero-mask__cta">
+          {{ section.settings.cta_label }}
+        </a>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+
   <!-- Custom Cursor -->
   <div class="hero-mask__cursor"></div>
 </div>
@@ -143,11 +242,12 @@
     if (!section || !maskCircle || !cursor) return;
 
     const maskSize = Number(maskCircle.getAttribute("data-mask-size")) || 300;
+    const restSize = Number(section.getAttribute("data-rest-size")) ?? 0;
 
-    // Entrance Animation: fade in section, then grow mask from 0 to full size and scale base image
+    // Entrance Animation: fade in section, then grow mask from 0 to rest size and scale base image
     const tl = gsap.timeline();
     tl.to(sectionContainer, { autoAlpha: 1, duration: 0.8, ease: "power2.out" })
-      .to(maskCircle, { attr: { r: maskSize }, duration: 1.2, ease: "power2.out" }, "-=0.3")
+      .to(maskCircle, { attr: { r: restSize }, duration: 1.2, ease: "power2.out" }, "-=0.3")
       .from(baseImage, { scale: 1.1, duration: 1.2, ease: "power2.out" }, "-=1.2");
 
     // Continuous turbulence animation
@@ -196,10 +296,12 @@
     
     section.addEventListener("mouseenter", () => {
       gsap.to(cursor, { autoAlpha: 1, duration: 0.3 });
+      gsap.to(maskCircle, { attr: { r: maskSize }, duration: 0.4, ease: "power2.out" });
     });
     
     section.addEventListener("mouseleave", () => {
-       gsap.to(cursor, { autoAlpha: 0, duration: 0.3 });
+      gsap.to(cursor, { autoAlpha: 0, duration: 0.3 });
+      gsap.to(maskCircle, { attr: { r: restSize }, duration: 0.4, ease: "power2.out" });
     });
 
     // Grow mask on click (optional)
@@ -256,8 +358,19 @@
       "max": 600,
       "step": 10,
       "unit": "px",
-      "label": "Mask Size",
+      "label": "Mask size (when hovering)",
       "default": 300
+    },
+    {
+      "type": "range",
+      "id": "mask_rest_size",
+      "min": 0,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Mask size when not hovering",
+      "default": 0,
+      "info": "Radius when the cursor is outside the section (0 = hidden)."
     },
     {
       "type": "checkbox",
@@ -325,6 +438,99 @@
         }
       ],
       "default": "60vh"
+    },
+    {
+      "type": "header",
+      "content": "Content overlay"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "title_font",
+      "label": "Title font",
+      "options": [
+        { "value": "heading", "label": "Heading" },
+        { "value": "body", "label": "Body" },
+        { "value": "subheading", "label": "Subheading" },
+        { "value": "accent", "label": "Accent" }
+      ],
+      "default": "heading"
+    },
+    {
+      "type": "select",
+      "id": "title_font_size",
+      "label": "Title font size",
+      "options": [
+        { "value": "1.25rem", "label": "Small" },
+        { "value": "1.5rem", "label": "Medium" },
+        { "value": "2rem", "label": "Large" },
+        { "value": "2.5rem", "label": "Extra large" },
+        { "value": "3rem", "label": "Display" }
+      ],
+      "default": "2rem"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font",
+      "label": "Subtitle font",
+      "options": [
+        { "value": "heading", "label": "Heading" },
+        { "value": "body", "label": "Body" },
+        { "value": "subheading", "label": "Subheading" },
+        { "value": "accent", "label": "Accent" }
+      ],
+      "default": "body"
+    },
+    {
+      "type": "select",
+      "id": "subtitle_font_size",
+      "label": "Subtitle font size",
+      "options": [
+        { "value": "0.875rem", "label": "Small" },
+        { "value": "1rem", "label": "Medium" },
+        { "value": "1.125rem", "label": "Large" }
+      ],
+      "default": "1rem"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Call to action label"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Call to action link"
+    },
+    {
+      "type": "select",
+      "id": "cta_font_size",
+      "label": "Button font size",
+      "options": [
+        { "value": "0.875rem", "label": "Small" },
+        { "value": "1rem", "label": "Medium" }
+      ],
+      "default": "1rem"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
     }
   ],
   "presets": [
