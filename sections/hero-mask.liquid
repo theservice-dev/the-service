@@ -13,6 +13,34 @@
   else
     assign reveal_image_src = image_reveal_url
   endif
+
+  comment
+    Image position: map vertical (top/center/bottom) and horizontal (left/center/right) to CSS object-position and SVG preserveAspectRatio.
+  endcomment
+  assign v = section.settings.image_position_vertical
+  assign h = section.settings.image_position_horizontal
+  if v == 'top'
+    assign pos_y = '0%'
+    assign svg_y = 'YMin'
+  elsif v == 'bottom'
+    assign pos_y = '100%'
+    assign svg_y = 'YMax'
+  else
+    assign pos_y = '50%'
+    assign svg_y = 'YMid'
+  endif
+  if h == 'left'
+    assign pos_x = '0%'
+    assign svg_x = 'xMin'
+  elsif h == 'right'
+    assign pos_x = '100%'
+    assign svg_x = 'xMax'
+  else
+    assign pos_x = '50%'
+    assign svg_x = 'xMid'
+  endif
+  assign object_position = pos_x | append: ' ' | append: pos_y
+  assign svg_preserve_aspect = svg_x | append: svg_y | append: ' slice'
 %}
 
 <style>
@@ -24,6 +52,7 @@
     background-color: #000;
     cursor: none; /* Hide default cursor for custom follower */
     --mask-size: {{ section.settings.mask_size }}px;
+    --hero-mask-object-position: {{ object_position }};
     opacity: 0; /* Initial state for animation */
     visibility: hidden;
     left: 50%;
@@ -32,30 +61,27 @@
     margin-right: -50vw;
   }
 
-  .hero-mask__image {
+  .section-{{ section.id }} .hero-mask__image {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: var(--hero-mask-object-position);
     pointer-events: none;
     user-select: none;
-    will-change: transform; /* Hint for animation performance */
+    will-change: transform;
   }
 
-  .hero-mask__reveal-wrapper {
+  .hero-mask__svg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 2;
     pointer-events: none;
-    
-    /* Using CSS variables updated by GSAP for the mask position */
-    -webkit-mask-image: radial-gradient(circle var(--mask-size) at var(--x, 50%) var(--y, 50%), black 100%, transparent 100%);
-    mask-image: radial-gradient(circle var(--mask-size) at var(--x, 50%) var(--y, 50%), black 100%, transparent 100%);
+    z-index: 2;
   }
 
   /* Custom cursor circle */
@@ -79,10 +105,24 @@
   <!-- Base Image (Bottom Layer) -->
   <img src="{{ base_image_src }}" alt="Hero Base" class="hero-mask__image hero-mask__base" width="3840" height="2160" loading="eager">
 
-  <!-- Reveal Image (Top Layer - Masked) -->
-  <div class="hero-mask__reveal-wrapper">
-    <img src="{{ reveal_image_src }}" alt="Hero Reveal" class="hero-mask__image hero-mask__reveal" width="3840" height="2160" loading="eager">
-  </div>
+  <!-- Reveal Image (Top Layer - Masked via SVG) -->
+  <svg class="hero-mask__svg" width="100%" height="100%" preserveAspectRatio="none">
+    <defs>
+      <!-- Turbulence Filter -->
+      <filter id="turbulence-{{ section.id }}">
+        <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="1" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="30" />
+      </filter>
+      
+      <!-- Mask Definition -->
+      <mask id="mask-{{ section.id }}">
+        <circle id="mask-circle-{{ section.id }}" cx="50%" cy="50%" r="{{ section.settings.mask_size }}" fill="white" filter="url(#turbulence-{{ section.id }})" />
+      </mask>
+    </defs>
+    
+    <!-- Masked Image -->
+    <image href="{{ reveal_image_src }}" width="100%" height="100%" preserveAspectRatio="{{ svg_preserve_aspect }}" mask="url(#mask-{{ section.id }})" />
+  </svg>
   
   <!-- Custom Cursor -->
   <div class="hero-mask__cursor"></div>
@@ -95,42 +135,58 @@
   document.addEventListener("DOMContentLoaded", () => {
     const section = document.querySelector("#HeroMask-{{ section.id }}");
     const sectionContainer = document.querySelector(".section-{{ section.id }}");
-    const revealWrapper = section.querySelector(".hero-mask__reveal-wrapper");
+    const maskCircle = document.querySelector("#mask-circle-{{ section.id }}");
+    const turbulence = document.querySelector("#turbulence-{{ section.id }} feTurbulence");
     const cursor = section.querySelector(".hero-mask__cursor");
-    const images = section.querySelectorAll(".hero-mask__image");
-
-    if (!section || !revealWrapper || !cursor) return;
+    const baseImage = section.querySelector(".hero-mask__base");
+    
+    if (!section || !maskCircle || !cursor) return;
 
     // Entrance Animation
     const tl = gsap.timeline();
     tl.to(sectionContainer, { autoAlpha: 1, duration: 0.8, ease: "power2.out" })
-      .from(images, { scale: 1.1, duration: 1.2, ease: "power2.out" }, "<");
+      .from(baseImage, { scale: 1.1, duration: 1.2, ease: "power2.out" }, "<");
 
-    // Use GSAP quickTo for high-performance updates
-    const xMaskTo = gsap.quickTo(revealWrapper, "--x", { duration: 0.2, ease: "power3" });
-    const yMaskTo = gsap.quickTo(revealWrapper, "--y", { duration: 0.2, ease: "power3" });
-    
-    const xCursorTo = gsap.quickTo(cursor, "x", { duration: 0.1, ease: "power3" });
-    const yCursorTo = gsap.quickTo(cursor, "y", { duration: 0.1, ease: "power3" });
+    // Continuous turbulence animation
+    if (turbulence) {
+      gsap.to(turbulence, {
+        attr: { baseFrequency: 0.02 },
+        duration: 10,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+    }
 
-    // Initial positioning
+    // Initial position (center of section)
     const rect = section.getBoundingClientRect();
     const initialX = rect.width / 2;
     const initialY = rect.height / 2;
+
+    // Cursor movement
+    const xCursorTo = gsap.quickTo(cursor, "x", { duration: 0.1, ease: "power3" });
+    const yCursorTo = gsap.quickTo(cursor, "y", { duration: 0.1, ease: "power3" });
     
-    // Set initial values
-    revealWrapper.style.setProperty('--x', `${initialX}px`);
-    revealWrapper.style.setProperty('--y', `${initialY}px`);
-    gsap.set(cursor, { x: initialX, y: initialY });
+    // Mask position (follows mouse; updated on tick for smooth follow)
+    const maskPos = { x: initialX, y: initialY };
+    const xMaskObjTo = gsap.quickTo(maskPos, "x", { duration: 0.2, ease: "power3" });
+    const yMaskObjTo = gsap.quickTo(maskPos, "y", { duration: 0.2, ease: "power3" });
+    
+    gsap.set(maskCircle, { attr: { cx: maskPos.x, cy: maskPos.y } });
+    gsap.set(cursor, { x: maskPos.x, y: maskPos.y });
+
+    gsap.ticker.add(() => {
+      maskCircle.setAttribute("cx", maskPos.x);
+      maskCircle.setAttribute("cy", maskPos.y);
+    });
 
     section.addEventListener("mousemove", (e) => {
       const rect = section.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      // Update Mask & Cursor
-      xMaskTo(x);
-      yMaskTo(y);
+      xMaskObjTo(x);
+      yMaskObjTo(y);
       xCursorTo(x);
       yCursorTo(y);
     });
@@ -172,6 +228,32 @@
       "unit": "px",
       "label": "Mask Size",
       "default": 300
+    },
+    {
+      "type": "header",
+      "content": "Image position"
+    },
+    {
+      "type": "select",
+      "id": "image_position_vertical",
+      "label": "Vertical position",
+      "options": [
+        { "value": "top", "label": "Top" },
+        { "value": "center", "label": "Center" },
+        { "value": "bottom", "label": "Bottom" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "select",
+      "id": "image_position_horizontal",
+      "label": "Horizontal position",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" },
+        { "value": "right", "label": "Right" }
+      ],
+      "default": "center"
     },
     {
       "type": "select",
