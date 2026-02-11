@@ -65,12 +65,16 @@
   assign content_align = section.settings.content_alignment
   assign content_flex = 'center'
   assign content_text = 'center'
+  assign gradient_direction = 'to top'
+  
   if content_align == 'left'
     assign content_flex = 'flex-start'
     assign content_text = 'left'
+    assign gradient_direction = 'to right'
   elsif content_align == 'right'
     assign content_flex = 'flex-end'
     assign content_text = 'right'
+    assign gradient_direction = 'to left'
   endif
 %}
 
@@ -142,8 +146,20 @@
     align-items: {{ content_flex }};
     padding: 1.5rem;
     pointer-events: none;
-    color: #fff;
+    color: {{ section.settings.text_color }};
   }
+  
+  {% if section.settings.enable_text_gradient %}
+  .section-{{ section.id }} .hero-mask__content::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient({{ gradient_direction }}, {{ section.settings.overlay_color }}, transparent);
+    pointer-events: none;
+  }
+  {% endif %}
+
   .section-{{ section.id }} .hero-mask__content .hero-mask__cta { pointer-events: auto; }
   .section-{{ section.id }} .hero-mask__content-inner {
     max-width: 42rem;
@@ -531,6 +547,28 @@
         { "value": "right", "label": "Right" }
       ],
       "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "header",
+      "content": "Gradient overlay"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_text_gradient",
+      "label": "Enable gradient overlay",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay color",
+      "default": "#000000"
     }
   ],
   "presets": [
