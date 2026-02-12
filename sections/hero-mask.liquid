@@ -203,7 +203,7 @@
   }
 </style>
 
-<div class="section-{{ section.id }} hero-mask-section" id="HeroMask-{{ section.id }}" data-grow-on-click="{{ section.settings.grow_mask_on_click }}" data-grow-size="{{ section.settings.mask_grow_size }}" data-rest-size="{{ section.settings.mask_rest_size }}">
+<div class="section-{{ section.id }} hero-mask-section" id="HeroMask-{{ section.id }}" data-grow-on-click="{{ section.settings.grow_mask_on_click }}" data-grow-size="{{ section.settings.mask_grow_size }}" data-rest-size="{{ section.settings.mask_rest_size }}" data-resting-position-x="{{ section.settings.mask_resting_position_x }}" data-resting-position-y="{{ section.settings.mask_resting_position_y }}">
   <!-- Base Image (Bottom Layer) -->
   <img src="{{ base_image_src }}" alt="Hero Base" class="hero-mask__image hero-mask__base" width="3840" height="2160" loading="eager">
 
@@ -265,15 +265,21 @@
 
     const maskSize = Number(maskCircle.getAttribute("data-mask-size")) || 300;
     const restSize = Number(section.getAttribute("data-rest-size")) ?? 0;
+    const restXPercent = Number(section.getAttribute("data-resting-position-x")) ?? 50;
+    const restYPercent = Number(section.getAttribute("data-resting-position-y")) ?? 50;
 
     // Full-size radius to cover entire section (diagonal from center)
     const rect = section.getBoundingClientRect();
     const fullSize = Math.ceil(Math.sqrt(rect.width * rect.width + rect.height * rect.height)) + 50;
 
+    // Resting position coordinates (percent to pixels)
+    const restX = (rect.width * restXPercent) / 100;
+    const restY = (rect.height * restYPercent) / 100;
+
     // Entrance Animation: fade in section, mask shrinks from full picture to rest size, base image scales
     gsap.set(maskCircle, { attr: { r: fullSize } });
     const tl = gsap.timeline();
-    tl.to(sectionContainer, { autoAlpha: 1, duration: 0.8, ease: "power2.out" })
+    tl.to(sectionContainer, { autoAlpha: 1, duration: 0.8, ease: "power2.inOut" })
       .to(maskCircle, { attr: { r: restSize }, duration: 1.2, ease: "power2.out" }, "-=0.3")
       .from(baseImage, { scale: 1.1, duration: 1.2, ease: "power2.out" }, "-=1.2");
 
@@ -288,9 +294,9 @@
       });
     }
 
-    // Initial position (center of section)
-    const initialX = rect.width / 2;
-    const initialY = rect.height / 2;
+    // Initial position (resting position)
+    const initialX = restX;
+    const initialY = restY;
 
     // Cursor movement
     const xCursorTo = gsap.quickTo(cursor, "x", { duration: 0.1, ease: "power3" });
@@ -326,8 +332,13 @@
     });
     
     section.addEventListener("mouseleave", () => {
+      const r = section.getBoundingClientRect();
+      const rx = (r.width * restXPercent) / 100;
+      const ry = (r.height * restYPercent) / 100;
       gsap.to(cursor, { autoAlpha: 0, duration: 0.3 });
       gsap.to(maskCircle, { attr: { r: restSize }, duration: 0.4, ease: "power2.out" });
+      xMaskObjTo(rx);
+      yMaskObjTo(ry);
     });
 
     // Grow mask on click (optional)
@@ -397,6 +408,28 @@
       "label": "Mask size when not hovering",
       "default": 0,
       "info": "Radius when the cursor is outside the section (0 = hidden)."
+    },
+    {
+      "type": "range",
+      "id": "mask_resting_position_x",
+      "label": "Resting position X",
+      "info": "Horizontal position when not hovering (0% = left, 100% = right).",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "mask_resting_position_y",
+      "label": "Resting position Y",
+      "info": "Vertical position when not hovering (0% = top, 100% = bottom).",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 50
     },
     {
       "type": "checkbox",
