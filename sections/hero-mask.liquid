@@ -170,6 +170,9 @@
     font-size: {{ section.settings.title_font_size }};
     margin: 0 0 0.5rem;
     color: inherit;
+    {% if section.settings.enable_text_shadow %}
+    text-shadow: {{ section.settings.text_shadow_x }}px {{ section.settings.text_shadow_y }}px {{ section.settings.text_shadow_blur }}px {{ section.settings.text_shadow_color }};
+    {% endif %}
   }
   .section-{{ section.id }} .hero-mask__subtitle {
     font-family: var({{ subtitle_font_var }});
@@ -177,6 +180,9 @@
     margin: 0 0 1rem;
     color: inherit;
     opacity: 0.95;
+    {% if section.settings.enable_text_shadow %}
+    text-shadow: {{ section.settings.text_shadow_x }}px {{ section.settings.text_shadow_y }}px {{ section.settings.text_shadow_blur }}px {{ section.settings.text_shadow_color }};
+    {% endif %}
   }
   .section-{{ section.id }} .hero-mask__cta {
     display: inline-block;
@@ -260,7 +266,12 @@
     const maskSize = Number(maskCircle.getAttribute("data-mask-size")) || 300;
     const restSize = Number(section.getAttribute("data-rest-size")) ?? 0;
 
-    // Entrance Animation: fade in section, then grow mask from 0 to rest size and scale base image
+    // Full-size radius to cover entire section (diagonal from center)
+    const rect = section.getBoundingClientRect();
+    const fullSize = Math.ceil(Math.sqrt(rect.width * rect.width + rect.height * rect.height)) + 50;
+
+    // Entrance Animation: fade in section, mask shrinks from full picture to rest size, base image scales
+    gsap.set(maskCircle, { attr: { r: fullSize } });
     const tl = gsap.timeline();
     tl.to(sectionContainer, { autoAlpha: 1, duration: 0.8, ease: "power2.out" })
       .to(maskCircle, { attr: { r: restSize }, duration: 1.2, ease: "power2.out" }, "-=0.3")
@@ -278,7 +289,6 @@
     }
 
     // Initial position (center of section)
-    const rect = section.getBoundingClientRect();
     const initialX = rect.width / 2;
     const initialY = rect.height / 2;
 
@@ -556,6 +566,53 @@
     },
     {
       "type": "header",
+      "content": "Text shadow"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_text_shadow",
+      "label": "Enable text shadow",
+      "default": false
+    },
+    {
+      "type": "color",
+      "id": "text_shadow_color",
+      "label": "Shadow color",
+      "default": "#000000",
+      "alpha": true
+    },
+    {
+      "type": "range",
+      "id": "text_shadow_blur",
+      "label": "Shadow blur",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "text_shadow_x",
+      "label": "Shadow offset X",
+      "min": -12,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "text_shadow_y",
+      "label": "Shadow offset Y",
+      "min": -12,
+      "max": 12,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "header",
       "content": "Gradient overlay"
     },
     {
@@ -568,7 +625,8 @@
       "type": "color",
       "id": "overlay_color",
       "label": "Overlay color",
-      "default": "#000000"
+      "default": "#000000",
+      "alpha": true
     }
   ],
   "presets": [
