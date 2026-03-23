@@ -15,7 +15,7 @@
       "settings": {
         "image_base": "shopify://shop_images/Hero-A-1b.png",
         "image_reveal": "shopify://shop_images/Hero-A-2.png",
-        "mask_size": 200,
+        "mask_size": 140,
         "mask_rest_size": 0,
         "mask_resting_position_x": 50,
         "mask_resting_position_y": 50,
