@@ -17,26 +17,24 @@
       assign product_card_size = '260px'
     endif
   elsif section.settings.product_grid_width == 'centered'
-    # Hardcoded values for product card size when width set to 'centered'
     case section.settings.product_card_size
       when 'small'
         assign product_card_size = '165px'
       when 'medium'
         assign product_card_size = '250px'
       when 'large'
-        assign product_card_size = '340px'
+        assign product_card_size = '420px'
       when 'extra-large'
         assign product_card_size = '480px'
     endcase
   else
-    # Hardcoded values for product card size when width set to 'full-width'
     case section.settings.product_card_size
       when 'small'
         assign product_card_size = '180px'
       when 'medium'
         assign product_card_size = '260px'
       when 'large'
-        assign product_card_size = '365px'
+        assign product_card_size = '420px'
       when 'extra-large'
         assign product_card_size = '530px'
     endcase
