@@ -9,6 +9,42 @@
  */
 {
   "sections": {
+    "hero_mask_nJEeAC": {
+      "type": "hero-mask",
+      "name": "Hero Mask",
+      "settings": {
+        "image_base": "shopify://shop_images/Hero-A-1.png",
+        "image_reveal": "shopify://shop_images/Hero-A-2.png",
+        "mask_size": 200,
+        "mask_rest_size": 0,
+        "mask_resting_position_x": 67,
+        "mask_resting_position_y": 32,
+        "click_to_set_position": false,
+        "grow_mask_on_click": true,
+        "mask_grow_size": 500,
+        "image_position_vertical": "center",
+        "image_position_horizontal": "center",
+        "section_height": "60vh",
+        "title": "",
+        "title_font": "heading",
+        "title_font_size": "2rem",
+        "subtitle": "",
+        "subtitle_font": "body",
+        "subtitle_font_size": "1rem",
+        "cta_label": "",
+        "cta_link": "",
+        "cta_font_size": "1rem",
+        "content_alignment": "center",
+        "text_color": "#FFFFFF",
+        "enable_text_shadow": false,
+        "text_shadow_color": "#000000",
+        "text_shadow_blur": 8,
+        "text_shadow_x": 0,
+        "text_shadow_y": 2,
+        "enable_text_gradient": false,
+        "overlay_color": "#000000"
+      }
+    },
     "hero_jVaWmY": {
       "type": "hero",
       "blocks": {
@@ -58,6 +94,7 @@
         "text_YLPk4p",
         "button_H9gpTf"
       ],
+      "disabled": true,
       "name": "t:names.hero",
       "settings": {
         "media_type_1": "image",
@@ -286,6 +323,7 @@
     }
   },
   "order": [
+    "hero_mask_nJEeAC",
     "hero_jVaWmY",
     "product_list_fa6P9H"
   ]
