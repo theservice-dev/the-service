@@ -1634,10 +1634,43 @@ media-gallery {
     /* arbitrary offset value based on average theme spacing and header height */
     --viewport-offset: 400px;
     --constrained-min-height: 300px;
-    --constrained-height: max(var(--constrained-min-height), calc(100vh - var(--viewport-offset)));
+    /*
+      Never use max(--constrained-min-height, …) for max-height: when the viewport calc is smaller than the
+      floor (common on laptop heights), the slide still forced 500px tall and thumbnails get clipped below.
+      --gallery-chrome-extra: reserved height for thumbnails below the main slide (taller when media is portrait).
+    */
+    --constrained-height: max(
+      0px,
+      calc(100vh - var(--viewport-offset) - var(--gallery-chrome-extra, 0px))
+    );
 
     margin-right: auto;
     margin-left: auto;
+  }
+}
+
+/*
+ * Carousel + thumbnails below main image: subtract thumbnail strip height from slide max-height
+ * so the main image and thumbnails fit in the viewport together (see .product-media-container.constrain-height).
+ */
+@media screen and (max-width: 749px) {
+  media-gallery.media-gallery--carousel:has(
+      slideshow-controls[thumbnails][pagination-position='center']:not([controls-on-media]):not(.mobile\:hidden)
+    ) {
+    /* Thumbnails use aspect-ratio from media; portrait images need more than --thumbnail-width in height */
+    --gallery-chrome-extra: calc(
+      var(--thumbnail-width) * 2.25 + var(--slideshow-thumbnails-padding-block, var(--padding-sm)) * 2 + var(--padding-lg)
+    );
+  }
+}
+
+@media screen and (min-width: 750px) {
+  media-gallery.media-gallery--carousel:has(
+      slideshow-controls[thumbnails][pagination-position='center']:not([controls-on-media]):not(.desktop\:hidden)
+    ) {
+    --gallery-chrome-extra: calc(
+      var(--thumbnail-width) * 2.25 + var(--slideshow-thumbnails-padding-block, var(--padding-sm)) * 2 + var(--padding-lg)
+    );
   }
 }
 
@@ -1658,11 +1691,20 @@ media-gallery.media-gallery--grid .media-gallery__grid .product-media-container 
   .product-media-container.constrain-height {
     max-height: none;
   }
+
+  /* Keep slide height capped when thumbnails sit below so image + thumbnails fit on screen */
+  media-gallery.media-gallery--carousel:has(
+      slideshow-controls[thumbnails][pagination-position='center']:not([controls-on-media]):not(.mobile\:hidden)
+    )
+    .product-media-container.constrain-height {
+    max-height: var(--constrained-height);
+  }
 }
 
 @media screen and (min-width: 750px) {
   .product-media-container.constrain-height {
-    --viewport-offset: var(--header-height, 100px);
+    /* Match product-details / theme: full header stack (announcement + header), not header bar alone */
+    --viewport-offset: var(--header-group-height, var(--header-height, 100px));
     --constrained-min-height: 500px;
   }
 
