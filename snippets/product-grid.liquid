@@ -192,6 +192,13 @@
     }
   }
 
+  /* Let each card stretch to the full grid cell (no max-width / centering). */
+  .main-collection-grid .product-grid__item {
+    width: 100%;
+    min-width: 0;
+    justify-self: stretch;
+  }
+
   .product-grid slideshow-arrows .slideshow-control {
     display: none;
 

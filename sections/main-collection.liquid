@@ -107,16 +107,16 @@
     }
   }
 
-  .collection-wrapper:has(.facets--vertical) .facets-block-wrapper--vertical:not(.hidden) ~ .main-collection-grid {
+  .collection-wrapper:has(.facets--vertical) .facets-block-wrapper--vertical:not(.hidden) ~ .main-collection-grid.collection-wrapper--full-width {
     @media screen and (min-width: 750px) {
-      grid-column: var(--facets-vertical-col-width) / var(--full-width-column-number);
+      grid-column: 3 / 4;
     }
   }
 
   .collection-wrapper:has(.facets-block-wrapper--vertical:not(#filters-drawer)):has(.collection-wrapper--full-width) {
     @media screen and (min-width: 750px) {
       grid-column: 1 / -1;
-      grid-template-columns: 0fr repeat(var(--centered-column-number), minmax(0, 1fr)) 0fr;
+      grid-template-columns: 0fr 260px minmax(0, 1fr) 0fr;
     }
   }
 
@@ -147,27 +147,24 @@
     }
   }
 
-  /* Narrower left sidebar for vertical facets (e.g. PLP with fixed product columns) */
-  .collection-wrapper--facet-sidebar-narrow {
-    @media screen and (min-width: 750px) {
-      --facets-vertical-col-width: 5;
-    }
-
-    @media screen and (min-width: 990px) {
-      --facets-vertical-col-width: 4;
-    }
-  }
-
-  .collection-wrapper--facet-sidebar-narrow .facets-block-wrapper--vertical {
-    --facets-inner-padding-inline: var(--padding-sm);
-  }
-
   .collection-wrapper--facet-sidebar-narrow .facets--vertical .facets__inputs {
-    gap: var(--padding-md);
+    gap: var(--padding-xs);
+  }
+
+  .collection-wrapper--facet-sidebar-narrow .facets--vertical .facets__inputs-wrapper {
+    margin-block: var(--margin-2xs);
   }
 
   .collection-wrapper--facet-sidebar-narrow .facets--vertical .facets__summary {
     font-size: var(--font-size--xs);
+    line-height: 1.35;
+    padding-block: var(--padding-2xs);
+  }
+
+  .collection-wrapper--facet-sidebar-narrow .facets.facets-controls-wrapper {
+    @media screen and (min-width: 750px) {
+      padding-bottom: var(--padding-2xs);
+    }
   }
 {% endstylesheet %}
 
@@ -209,7 +206,7 @@
           "label": "t:options.plp_sidebar"
         }
       ],
-      "default": "default",
+      "default": "plp_sidebar",
       "visible_if": "{{ section.settings.layout_type == 'grid' }}"
     },
     {

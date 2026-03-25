@@ -26,6 +26,14 @@
     assign filter_style = 'vertical'
     assign enable_grid_density_controls = false
   endif
+  assign facets_inner_padding_inline = 'var(--padding-lg)'
+  if filter_style == 'vertical'
+    if section.settings.collection_listing_layout == 'plp_sidebar'
+      assign facets_inner_padding_inline = 'var(--padding-xs)'
+    elsif section.settings.facet_sidebar_width == 'narrow'
+      assign facets_inner_padding_inline = 'var(--padding-sm)'
+    endif
+  endif
   assign products_count = results_size
   assign sort_by = results.sort_by | default: results.default_sort_by
   assign filters = filters | default: results.filters
@@ -139,11 +147,11 @@
         {%- if filter_style == 'horizontal' -%}
           var(--{{ block_settings.filter_width }})
         {%- else -%}
-          2 / var(--facets-vertical-col-width)
+          2 / 3
         {%- endif -%};
       {{ facets_margin_style }}
       --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px;
-      --facets-inner-padding-inline: var(--padding-lg);
+      --facets-inner-padding-inline: {{ facets_inner_padding_inline }};
     "
     {{ block.shopify_attributes }}
   >
@@ -485,13 +493,83 @@
 {% endif %}
 
 {% stylesheet %}
-  .collection-wrapper {
-    @media screen and (min-width: 750px) {
-      --facets-vertical-col-width: 6;
-    }
+  /*
+    Default .section places children in the narrow center column. With a sidebar + grid PLP,
+    span the full viewport (with page margins) so the product area can use all horizontal space.
+  */
+  results-list.section:has(.facets-block-wrapper--vertical:not(.hidden)) > * {
+    grid-column: 1 / -1;
+  }
 
-    @media screen and (min-width: 990px) {
-      --facets-vertical-col-width: 5;
+  @media screen and (min-width: 750px) {
+    results-list.section:has(.facets-block-wrapper--vertical:not(.hidden)) > * {
+      padding-inline: var(--page-margin);
+    }
+  }
+
+  /* Fixed 260px filter column when product grid is centered */
+  .collection-wrapper:has(.facets-block-wrapper--vertical:not(.hidden)):not(:has(.main-collection-grid.collection-wrapper--full-width)) {
+    @media screen and (min-width: 750px) {
+      grid-template-columns:
+        1fr
+        260px
+        minmax(0, calc(var(--page-width) - var(--page-margin) * 2 - 260px))
+        1fr;
+    }
+  }
+
+  .collection-wrapper:has(.facets--vertical)
+    .facets-block-wrapper--vertical:not(.hidden)
+    ~ .main-collection-grid:not(.collection-wrapper--full-width) {
+    @media screen and (min-width: 750px) {
+      grid-column: 3 / 4;
+    }
+  }
+
+  .collection-wrapper:has(.facets-block-wrapper--vertical:not(.hidden))
+    .facets.facets-controls-wrapper {
+    @media screen and (min-width: 750px) {
+      grid-column: 2 / 4;
+    }
+  }
+
+  /*
+    The product grid wrapper uses .grid (12 columns + side margins). That nests inside the
+    facet + products layout and caps width to --page-width, leaving unused space beside the
+    sidebar. Use a single full-width track so cards use the whole product column.
+
+    Inner wrapper uses inline grid-column: var(--full-width) (named lines column-0 …).
+    Collapsing the template removes those lines unless --full-width is overridden so the child
+    resolves to 1 / -1 instead of column-0 / span 14.
+  */
+  .collection-wrapper:has(.facets-block-wrapper--vertical:not(.hidden)) .main-collection-grid.grid {
+    @media screen and (min-width: 750px) {
+      --full-width: 1 / -1;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: none;
+    }
+  }
+
+  @media screen and (min-width: 1400px) {
+    .collection-wrapper:has(.facets-block-wrapper--vertical:not(.hidden)) .main-collection-grid.grid {
+      --full-width: 1 / -1;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: none;
+    }
+  }
+
+  .collection-wrapper:has(.facets-block-wrapper--vertical:not(.hidden)) .main-collection-grid.grid > div {
+    @media screen and (min-width: 750px) {
+      min-width: 0;
+      width: 100%;
+    }
+  }
+
+  .collection-wrapper:has(.facets-block-wrapper--vertical:not(.hidden)) .main-collection-grid .product-grid {
+    @media screen and (min-width: 750px) {
+      width: 100%;
+      max-width: none;
+      margin-inline: 0;
     }
   }
 
@@ -505,6 +583,21 @@
   .facets-block-wrapper--vertical {
     @media screen and (min-width: 750px) {
       grid-column: var(--grid-column--desktop);
+    }
+  }
+
+  /* Desktop sidebar: keep filters in view while scrolling the product grid */
+  .facets-block-wrapper--vertical:not(.facets-block-wrapper--drawer) {
+    @media screen and (min-width: 750px) {
+      align-self: start;
+      position: sticky;
+      top: calc(var(--header-height, 60px) + var(--padding-sm));
+      max-height: calc(
+        100vh - var(--header-height, 60px) - var(--padding-sm) - var(--padding-md)
+      );
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      z-index: var(--layer-flat);
     }
   }
 
