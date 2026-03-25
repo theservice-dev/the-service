@@ -577,7 +577,10 @@
     "x_position": "가로 위치",
     "y_position": "세로 위치",
     "enable_sticky_add_to_cart": "고정 카트 추가 바",
-    "sticky_add_to_cart": "고정 카트 추가"
+    "sticky_add_to_cart": "고정 카트 추가",
+    "desktop_product_columns": "Desktop product columns",
+    "facet_sidebar_width": "Filter sidebar width",
+    "collection_listing_layout": "Product listing layout"
   },
   "options": {
     "apple": "Apple",
@@ -851,7 +854,11 @@
     "subtle_zoom": "확대/축소",
     "with_hints": "힌트 포함",
     "below_media": "미디어 아래",
-    "full_frame": "전체 프레임"
+    "full_frame": "전체 프레임",
+    "desktop_columns_2": "2",
+    "desktop_columns_3": "3",
+    "desktop_columns_4": "4",
+    "plp_sidebar": "Sidebar filters"
   },
   "content": {
     "background_video": "배경 비디오",
@@ -1085,7 +1092,10 @@
     "pills_usage": "적용된 필터, 할인 코드, 검색 제안에 사용됩니다",
     "hide_logo_on_home_page_help": "고정 머리글이 활성화되면 로고가 계속 표시됩니다",
     "media_type_info": "기능은 메뉴 링크에서 채워집니다",
-    "logo_height": "머리글 로고에만 영향을 줍니다"
+    "logo_height": "머리글 로고에만 영향을 줍니다",
+    "desktop_product_columns": "Auto fills the row using card size. Fixed values keep that many columns on desktop.",
+    "facet_sidebar_width": "Applies when the Filters block uses vertical layout. Narrow uses a slimmer left column.",
+    "collection_listing_layout": "Sidebar filters uses a narrow left column, three products per row on desktop, and vertical filters. Other column and sidebar options apply when Standard is selected."
   },
   "categories": {
     "basic": "기본",

@@ -577,7 +577,10 @@
     "x_position": "Posizione orizzontale",
     "y_position": "Posizione verticale",
     "enable_sticky_add_to_cart": "Barra fissa per l'aggiunta al carrello",
-    "sticky_add_to_cart": "Aggiunta al carrello fissa"
+    "sticky_add_to_cart": "Aggiunta al carrello fissa",
+    "desktop_product_columns": "Desktop product columns",
+    "facet_sidebar_width": "Filter sidebar width",
+    "collection_listing_layout": "Product listing layout"
   },
   "options": {
     "apple": "Mela",
@@ -851,7 +854,11 @@
     "subtle_zoom": "Zoom",
     "with_hints": "Con suggerimenti",
     "below_media": "Sotto i contenuti multimediali",
-    "full_frame": "A schermo intero"
+    "full_frame": "A schermo intero",
+    "desktop_columns_2": "2",
+    "desktop_columns_3": "3",
+    "desktop_columns_4": "4",
+    "plp_sidebar": "Sidebar filters"
   },
   "content": {
     "advanced": "Avanzate",
@@ -1085,7 +1092,10 @@
     "hover_effects": "Si applica alle schede di prodotto e di collezione",
     "hide_logo_on_home_page_help": "Il logo rimarrà visibile quando l'header permanente è attivo",
     "media_type_info": "Le funzionalità vengono popolate dai link del menu",
-    "logo_height": "Influisce solo sul logo dell'header"
+    "logo_height": "Influisce solo sul logo dell'header",
+    "desktop_product_columns": "Auto fills the row using card size. Fixed values keep that many columns on desktop.",
+    "facet_sidebar_width": "Applies when the Filters block uses vertical layout. Narrow uses a slimmer left column.",
+    "collection_listing_layout": "Sidebar filters uses a narrow left column, three products per row on desktop, and vertical filters. Other column and sidebar options apply when Standard is selected."
   },
   "categories": {
     "product_list": "Collezione in evidenza",

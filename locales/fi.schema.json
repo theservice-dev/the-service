@@ -577,7 +577,10 @@
     "x_position": "Vaakasuuntainen sijainti",
     "y_position": "Pystysuuntainen sijainti",
     "enable_sticky_add_to_cart": "Kiinteä Lisää ostoskoriin -palkki",
-    "sticky_add_to_cart": "Kiinteä Lisää ostoskoriin -toiminto"
+    "sticky_add_to_cart": "Kiinteä Lisää ostoskoriin -toiminto",
+    "desktop_product_columns": "Desktop product columns",
+    "facet_sidebar_width": "Filter sidebar width",
+    "collection_listing_layout": "Product listing layout"
   },
   "options": {
     "apple": "Omena",
@@ -851,7 +854,11 @@
     "subtle_zoom": "Zoomaus",
     "with_hints": "Vihjeillä",
     "below_media": "Median alapuolella",
-    "full_frame": "Koko ruutu"
+    "full_frame": "Koko ruutu",
+    "desktop_columns_2": "2",
+    "desktop_columns_3": "3",
+    "desktop_columns_4": "4",
+    "plp_sidebar": "Sidebar filters"
   },
   "content": {
     "advanced": "Lisäasetukset",
@@ -1085,7 +1092,10 @@
     "hover_effects": "Koskee tuote- ja kokoelmakortteja",
     "hide_logo_on_home_page_help": "Logo pysyy näkyvissä, kun kiinteä ylätunniste on aktiivinen",
     "media_type_info": "Ominaisuudet täytetään valikkolinkkiesi perusteella",
-    "logo_height": "Vaikuttaa vain ylätunnisteen logoon"
+    "logo_height": "Vaikuttaa vain ylätunnisteen logoon",
+    "desktop_product_columns": "Auto fills the row using card size. Fixed values keep that many columns on desktop.",
+    "facet_sidebar_width": "Applies when the Filters block uses vertical layout. Narrow uses a slimmer left column.",
+    "collection_listing_layout": "Sidebar filters uses a narrow left column, three products per row on desktop, and vertical filters. Other column and sidebar options apply when Standard is selected."
   },
   "categories": {
     "basic": "Perusosat",

@@ -82,6 +82,8 @@ All JSON templates must follow this exact structure:
 **Alternate Templates:**
 Alternative templates may exist for any of the standard templates, following the structure `template-name.template-suffix.template-file-type`, for example: `product.alternate.json`
 
+**Collection PLP sidebar:** In the theme editor, open the **Collection** section and set **Product listing layout** to **Sidebar filters** (`collection_listing_layout`: `plp_sidebar`) on the default template or any collection template. That applies vertical filters, a narrow left facet column, three desktop columns, and hides grid-density controls (same behavior as the preset in `collection.plp-sidebar.json`). When **Standard** is selected, **Desktop product columns** and **Filter sidebar width** are shown again. When adding schema keys for `main-collection`, add matching keys to every `locales/*.schema.json` (or run a small merge script) so `shopify theme check` passes `MatchingTranslations`.
+
 ## Valid Template Examples
 
 **Product Template:**

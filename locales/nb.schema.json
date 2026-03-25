@@ -577,7 +577,10 @@
     "x_position": "Vannrett posisjon",
     "y_position": "Loddrett posisjon",
     "enable_sticky_add_to_cart": "Festet «Legg i handlekurv»-linje",
-    "sticky_add_to_cart": "Festet «Legg i handlekurv»"
+    "sticky_add_to_cart": "Festet «Legg i handlekurv»",
+    "desktop_product_columns": "Desktop product columns",
+    "facet_sidebar_width": "Filter sidebar width",
+    "collection_listing_layout": "Product listing layout"
   },
   "options": {
     "apple": "Eple",
@@ -851,7 +854,11 @@
     "subtle_zoom": "Zoom",
     "with_hints": "Med hint",
     "below_media": "Under mediene",
-    "full_frame": "Full ramme"
+    "full_frame": "Full ramme",
+    "desktop_columns_2": "2",
+    "desktop_columns_3": "3",
+    "desktop_columns_4": "4",
+    "plp_sidebar": "Sidebar filters"
   },
   "content": {
     "advanced": "Avansert",
@@ -1085,7 +1092,10 @@
     "hover_effects": "Gjelder for produkt- og samlingskort",
     "hide_logo_on_home_page_help": "Logoen forblir synlig når klebrig topptekst er aktiv",
     "media_type_info": "Funksjoner fylles ut fra menylenker",
-    "logo_height": "Påvirker bare logoen i toppteksten"
+    "logo_height": "Påvirker bare logoen i toppteksten",
+    "desktop_product_columns": "Auto fills the row using card size. Fixed values keep that many columns on desktop.",
+    "facet_sidebar_width": "Applies when the Filters block uses vertical layout. Narrow uses a slimmer left column.",
+    "collection_listing_layout": "Sidebar filters uses a narrow left column, three products per row on desktop, and vertical filters. Other column and sidebar options apply when Standard is selected."
   },
   "categories": {
     "product_list": "Utvalgt samling",

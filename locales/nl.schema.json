@@ -577,7 +577,10 @@
     "x_position": "Horizontale positie",
     "y_position": "Verticale positie",
     "enable_sticky_add_to_cart": "Vaste 'Toevoegen aan winkelwagen'-balk",
-    "sticky_add_to_cart": "Vaste 'Toevoegen aan winkelwagen'-balk"
+    "sticky_add_to_cart": "Vaste 'Toevoegen aan winkelwagen'-balk",
+    "desktop_product_columns": "Desktop product columns",
+    "facet_sidebar_width": "Filter sidebar width",
+    "collection_listing_layout": "Product listing layout"
   },
   "options": {
     "apple": "Apple",
@@ -851,7 +854,11 @@
     "subtle_zoom": "Zoom",
     "with_hints": "Met hints",
     "below_media": "Onder media",
-    "full_frame": "Volledig kader"
+    "full_frame": "Volledig kader",
+    "desktop_columns_2": "2",
+    "desktop_columns_3": "3",
+    "desktop_columns_4": "4",
+    "plp_sidebar": "Sidebar filters"
   },
   "content": {
     "background_video": "Achtergrondvideo",
@@ -1085,7 +1092,10 @@
     "hover_effects": "Van toepassing op product- en collectiekaarten",
     "hide_logo_on_home_page_help": "Logo blijft zichtbaar wanneer de vaste koptekst actief is",
     "media_type_info": "Functies worden gevuld vanuit je menulinks",
-    "logo_height": "Heeft alleen invloed op het logo in de koptekst"
+    "logo_height": "Heeft alleen invloed op het logo in de koptekst",
+    "desktop_product_columns": "Auto fills the row using card size. Fixed values keep that many columns on desktop.",
+    "facet_sidebar_width": "Applies when the Filters block uses vertical layout. Narrow uses a slimmer left column.",
+    "collection_listing_layout": "Sidebar filters uses a narrow left column, three products per row on desktop, and vertical filters. Other column and sidebar options apply when Standard is selected."
   },
   "categories": {
     "product_list": "Uitgelichte collectie",

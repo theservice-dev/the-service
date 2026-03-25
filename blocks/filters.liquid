@@ -20,6 +20,12 @@
 
 {%- liquid
   assign block_settings = block.settings
+  assign filter_style = block_settings.filter_style
+  assign enable_grid_density_controls = block_settings.enable_grid_density
+  if section.settings.collection_listing_layout == 'plp_sidebar'
+    assign filter_style = 'vertical'
+    assign enable_grid_density_controls = false
+  endif
   assign products_count = results_size
   assign sort_by = results.sort_by | default: results.default_sort_by
   assign filters = filters | default: results.filters
@@ -28,7 +34,7 @@
   # Calculate facets margin style
   capture facets_margin_style
     echo '--facets-margin: 0px '
-    if block_settings.filter_style == 'vertical'
+    if filter_style == 'vertical'
       echo block_settings.facets_margin_right | append: 'px' | append: ' 0px'
     else
       echo ' 0px ' | append: block_settings.facets_margin_bottom | append: 'px'
@@ -61,7 +67,7 @@
 
   assign is_active = false
   assign should_show_pane = true
-  if block_settings.filter_style == 'vertical'
+  if filter_style == 'vertical'
     assign should_show_pane = block_settings.enable_filtering
   endif
 
@@ -71,13 +77,13 @@
   endif
 
   assign should_show_vertical_clear_all = true
-  if block_settings.filter_style == 'vertical'
+  if filter_style == 'vertical'
     assign should_show_vertical_clear_all = false
   endif
 -%}
 
-{% if block_settings.enable_filtering or block_settings.enable_sorting or block_settings.enable_grid_density %}
-  {% if block_settings.filter_style == 'vertical' %}
+{% if block_settings.enable_filtering or block_settings.enable_sorting or enable_grid_density_controls %}
+  {% if filter_style == 'vertical' %}
     {% # These elements are always rendered in the horizontal bar that's why we apply the .facets--horizontal class %}
     <div
       class="facets facets--horizontal facets-controls-wrapper spacing-style"
@@ -104,7 +110,7 @@
         {% render 'sorting',
           results: results,
           sort_by: sort_by,
-          filter_style: block_settings.filter_style,
+          filter_style: filter_style,
           suffix: 'desktop',
           sort_position: 'desktop',
           should_use_select_on_mobile: false,
@@ -112,7 +118,7 @@
         %}
       {% endif %}
 
-      {% if block_settings.enable_grid_density %}
+      {% if enable_grid_density_controls %}
         {% render 'grid-density-controls', viewport: 'desktop' %}
       {% endif %}
     </div>
@@ -124,13 +130,13 @@
         hidden
       {% endif %}
       facets-block-wrapper
-      facets-block-wrapper--{{ block_settings.filter_style }}
+      facets-block-wrapper--{{ filter_style }}
       {%- if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}
       {%- if block_settings.filter_width == 'full-width' %} facets-block-wrapper--full-width{% endif %}
     "
     style="
       --grid-column--desktop:
-        {%- if block_settings.filter_style == 'horizontal' -%}
+        {%- if filter_style == 'horizontal' -%}
           var(--{{ block_settings.filter_width }})
         {%- else -%}
           2 / var(--facets-vertical-col-width)
@@ -142,14 +148,14 @@
     {{ block.shopify_attributes }}
   >
     <div
-      class="facets facets--{{ block_settings.filter_style }} spacing-style"
+      class="facets facets--{{ filter_style }} spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
       aria-label="{{ 'accessibility.filters' | t }}"
     >
       <facets-form-component
         class="facets__form-wrapper"
         section-id="{{ section.id }}"
-        form-style="{{ block_settings.filter_style }}"
+        form-style="{{ filter_style }}"
       >
         <form
           action="{{ results_url }}"
@@ -178,13 +184,13 @@
                           assign is_active = true
                         endif
 
-                        if block_settings.filter_style != 'vertical'
+                        if filter_style != 'vertical'
                           assign should_render_clear = true
                         else
                           assign should_render_clear = false
                         endif
 
-                        render 'price-filter', filter: filter, filter_style: block_settings.filter_style, should_render_clear: should_render_clear
+                        render 'price-filter', filter: filter, filter_style: filter_style, should_render_clear: should_render_clear
                       -%}
                     {% else %}
                       {% liquid
@@ -194,19 +200,19 @@
 
                         assign active_value_count = filter.active_values | size
                         assign total_active_values = total_active_values | plus: active_value_count
-                        if block_settings.filter_style != 'vertical'
+                        if filter_style != 'vertical'
                           assign should_render_clear = true
                         else
                           assign should_render_clear = false
                         endif
-                        render 'list-filter', filter: filter, filter_style: block_settings.filter_style, active_value_count: active_value_count, should_render_clear: should_render_clear, show_swatch_label: block_settings.show_swatch_label, sectionId: section.id
+                        render 'list-filter', filter: filter, filter_style: filter_style, active_value_count: active_value_count, should_render_clear: should_render_clear, show_swatch_label: block_settings.show_swatch_label, sectionId: section.id
                       %}
                   {% endcase %}
                 {%- endfor -%}
               {% endcapture %}
 
               <div class="facets__filters-wrapper">
-                {% if block_settings.filter_style == 'horizontal' %}
+                {% if filter_style == 'horizontal' %}
                   {% liquid
                     assign more_attributes = 'on:click="#filters-drawer/showDialog"'
                     if block_settings.text_label_case == 'uppercase'
@@ -233,7 +239,7 @@
                 clear_all_button_style: 'button-unstyled'
               %}
             {% endif %}
-            {% if block_settings.filter_style == 'horizontal' %}
+            {% if filter_style == 'horizontal' %}
               <div
                 class="products-count-wrapper"
                 data-testid="products-count"
@@ -251,7 +257,7 @@
                 {% render 'sorting',
                   results: results,
                   sort_by: sort_by,
-                  filter_style: block_settings.filter_style,
+                  filter_style: filter_style,
                   suffix: 'desktop',
                   sort_position: 'desktop',
                   should_use_select_on_mobile: false,
@@ -259,7 +265,7 @@
                 %}
               {% endif %}
 
-              {% if block_settings.enable_grid_density %}
+              {% if enable_grid_density_controls %}
                 {% render 'grid-density-controls', viewport: 'desktop' %}
               {% endif %}
             {% endif %}
@@ -270,7 +276,7 @@
   </div>
 
   <div
-    class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if block_settings.filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
+    class="facets-toggle{% if block_settings.enable_filtering == false %} facets-toggle--no-filters{% endif %}{% if filter_style == 'horizontal' and block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
     style="
       --facets-inner-padding-block: {{ block_settings.padding-block-start }}px {{ block_settings.padding-block-end }}px; --facets-inner-padding-inline: var(--padding-lg);
       {{ facets_margin_style }}
@@ -315,7 +321,7 @@
       if block_settings.enable_filtering == false and block_settings.enable_sorting
         assign child_count = child_count | plus: 1
       endif
-      if block_settings.enable_grid_density
+      if enable_grid_density_controls
         assign child_count = child_count | plus: 1
       endif
     %}
@@ -334,7 +340,7 @@
             {% render 'sorting',
               results: results,
               sort_by: sort_by,
-              filter_style: block_settings.filter_style,
+              filter_style: filter_style,
               sort_position: 'mobile',
               should_use_select_on_mobile: should_use_select_on_mobile,
               section_id: section.id
@@ -342,7 +348,7 @@
           </form>
         </facets-form-component>
       {% endif %}
-      {% if block_settings.enable_grid_density %}
+      {% if enable_grid_density_controls %}
         {% render 'grid-density-controls', viewport: 'mobile' %}
       {% endif %}
     </div>
@@ -456,7 +462,7 @@
               {% render 'sorting',
                 results: results,
                 sort_by: sort_by,
-                filter_style: block_settings.filter_style,
+                filter_style: filter_style,
                 suffix: 'overflow',
                 should_use_select_on_mobile: should_use_select_on_mobile,
                 section_id: section.id

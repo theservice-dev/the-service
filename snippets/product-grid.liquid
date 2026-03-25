@@ -13,14 +13,24 @@
   {% render 'util-product-grid-card-size' section: section %}
 {% endcapture %}
 {% assign product_card_size = product_card_size | strip %}
+{% assign desktop_product_columns = section.settings.desktop_product_columns | default: 'auto' %}
+{% if section.settings.collection_listing_layout == 'plp_sidebar' %}
+  {% assign desktop_product_columns = '3' %}
+{% endif %}
 
 {% style %}
   @media (min-width: 750px) {
     {% case section.settings.layout_type %}
       {% when 'grid' %}
-        .product-grid--{{ section.id }}:is(.product-grid--grid) {
-          --product-grid-columns-desktop: repeat(auto-fill, minmax({{ product_card_size }}, 1fr));
-        }
+        {% if desktop_product_columns != 'auto' and desktop_product_columns != blank %}
+          .product-grid--{{ section.id }}:is(.product-grid--grid) {
+            --product-grid-columns-desktop: repeat({{ desktop_product_columns }}, 1fr);
+          }
+        {% else %}
+          .product-grid--{{ section.id }}:is(.product-grid--grid) {
+            --product-grid-columns-desktop: repeat(auto-fill, minmax({{ product_card_size }}, 1fr));
+          }
+        {% endif %}
 
 
       {% when 'organic' %}
@@ -46,15 +56,17 @@
         }
     {% endcase %}
 
-    /* This logic helps prevent displaying one column for an large or extra-large product card size on a small screen. We want it to display at least two columns. */
-    {% case section.settings.product_card_size %}
-      {% when 'extra-large' or 'large' %}
-        @container product-grid (max-width: calc({{ product_card_size }} * 3 + {{ section.settings.columns_gap_horizontal }}px * 2)) {
-          .product-grid--{{ section.id }}:is(.product-grid--grid) {
-            --product-grid-columns-desktop: repeat(2, 1fr);
+    {% if desktop_product_columns == 'auto' or desktop_product_columns == blank %}
+      /* This logic helps prevent displaying one column for an large or extra-large product card size on a small screen. We want it to display at least two columns. */
+      {% case section.settings.product_card_size %}
+        {% when 'extra-large' or 'large' %}
+          @container product-grid (max-width: calc({{ product_card_size }} * 3 + {{ section.settings.columns_gap_horizontal }}px * 2)) {
+            .product-grid--{{ section.id }}:is(.product-grid--grid) {
+              --product-grid-columns-desktop: repeat(2, 1fr);
+            }
           }
-        }
-    {% endcase %}
+      {% endcase %}
+    {% endif %}
 
     /* When zoomed out, fit as many 100px-wide columns as possible */
     .product-grid--{{ section.id }}[product-grid-view='zoom-out'] {

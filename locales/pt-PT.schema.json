@@ -577,7 +577,10 @@
     "x_position": "Posição horizontal",
     "y_position": "Posição vertical",
     "enable_sticky_add_to_cart": "Barra fixa de adicionar ao carrinho",
-    "sticky_add_to_cart": "Barra fixa de adicionar ao carrinho"
+    "sticky_add_to_cart": "Barra fixa de adicionar ao carrinho",
+    "desktop_product_columns": "Desktop product columns",
+    "facet_sidebar_width": "Filter sidebar width",
+    "collection_listing_layout": "Product listing layout"
   },
   "options": {
     "apple": "Maçã",
@@ -851,7 +854,11 @@
     "subtle_zoom": "Zoom",
     "with_hints": "Com dicas",
     "below_media": "Abaixo do conteúdo multimédia",
-    "full_frame": "Ecrã inteiro"
+    "full_frame": "Ecrã inteiro",
+    "desktop_columns_2": "2",
+    "desktop_columns_3": "3",
+    "desktop_columns_4": "4",
+    "plp_sidebar": "Sidebar filters"
   },
   "content": {
     "advanced": "Avançado",
@@ -1085,7 +1092,10 @@
     "hover_effects": "Aplica-se a cartões de produto e de coleção",
     "hide_logo_on_home_page_help": "O logótipo permanecerá visível quando o cabeçalho fixo estiver ativo",
     "media_type_info": "As funcionalidades são preenchidas a partir das ligações do seu menu",
-    "logo_height": "Afeta apenas o logótipo do cabeçalho"
+    "logo_height": "Afeta apenas o logótipo do cabeçalho",
+    "desktop_product_columns": "Auto fills the row using card size. Fixed values keep that many columns on desktop.",
+    "facet_sidebar_width": "Applies when the Filters block uses vertical layout. Narrow uses a slimmer left column.",
+    "collection_listing_layout": "Sidebar filters uses a narrow left column, three products per row on desktop, and vertical filters. Other column and sidebar options apply when Standard is selected."
   },
   "categories": {
     "basic": "Básico",

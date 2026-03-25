@@ -577,7 +577,10 @@
     "x_position": "Pozycja pozioma",
     "y_position": "Pozycja pionowa",
     "enable_sticky_add_to_cart": "Przypięty pasek dodawania do koszyka",
-    "sticky_add_to_cart": "Przypięte dodawanie do koszyka"
+    "sticky_add_to_cart": "Przypięte dodawanie do koszyka",
+    "desktop_product_columns": "Desktop product columns",
+    "facet_sidebar_width": "Filter sidebar width",
+    "collection_listing_layout": "Product listing layout"
   },
   "options": {
     "apple": "Apple",
@@ -851,7 +854,11 @@
     "subtle_zoom": "Powiększenie",
     "with_hints": "Z podpowiedziami",
     "below_media": "Pod multimediami",
-    "full_frame": "Pełna klatka"
+    "full_frame": "Pełna klatka",
+    "desktop_columns_2": "2",
+    "desktop_columns_3": "3",
+    "desktop_columns_4": "4",
+    "plp_sidebar": "Sidebar filters"
   },
   "content": {
     "background_video": "Wideo w tle",
@@ -1085,7 +1092,10 @@
     "pills_usage": "Używane w przypadku zastosowanych filtrów, kodów rabatowych i sugestii wyszukiwania",
     "hide_logo_on_home_page_help": "Logo pozostanie widoczne, gdy aktywny jest lepki nagłówek",
     "media_type_info": "Funkcje są wypełniane na podstawie linków w menu",
-    "logo_height": "Dotyczy tylko logo w nagłówku"
+    "logo_height": "Dotyczy tylko logo w nagłówku",
+    "desktop_product_columns": "Auto fills the row using card size. Fixed values keep that many columns on desktop.",
+    "facet_sidebar_width": "Applies when the Filters block uses vertical layout. Narrow uses a slimmer left column.",
+    "collection_listing_layout": "Sidebar filters uses a narrow left column, three products per row on desktop, and vertical filters. Other column and sidebar options apply when Standard is selected."
   },
   "categories": {
     "product_list": "Polecana kolekcja",

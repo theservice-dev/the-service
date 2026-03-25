@@ -577,7 +577,10 @@
     "x_position": "Horisontell position",
     "y_position": "Vertikal position",
     "enable_sticky_add_to_cart": "Fast fält för ”Lägg till i varukorgen”",
-    "sticky_add_to_cart": "Fast ”Lägg till i varukorgen”"
+    "sticky_add_to_cart": "Fast ”Lägg till i varukorgen”",
+    "desktop_product_columns": "Desktop product columns",
+    "facet_sidebar_width": "Filter sidebar width",
+    "collection_listing_layout": "Product listing layout"
   },
   "options": {
     "apple": "Apple",
@@ -851,7 +854,11 @@
     "subtle_zoom": "Zoom",
     "with_hints": "Med tips",
     "below_media": "Under media",
-    "full_frame": "Helskärm"
+    "full_frame": "Helskärm",
+    "desktop_columns_2": "2",
+    "desktop_columns_3": "3",
+    "desktop_columns_4": "4",
+    "plp_sidebar": "Sidebar filters"
   },
   "content": {
     "advanced": "Avancerat",
@@ -1085,7 +1092,10 @@
     "hover_effects": "Gäller produkt- och produktseriekort",
     "hide_logo_on_home_page_help": "Logotypen förblir synlig när klistrigt sidhuvud är aktivt",
     "media_type_info": "Funktioner fylls i från dina menylänkar",
-    "logo_height": "Påverkar endast logotypen i sidhuvudet"
+    "logo_height": "Påverkar endast logotypen i sidhuvudet",
+    "desktop_product_columns": "Auto fills the row using card size. Fixed values keep that many columns on desktop.",
+    "facet_sidebar_width": "Applies when the Filters block uses vertical layout. Narrow uses a slimmer left column.",
+    "collection_listing_layout": "Sidebar filters uses a narrow left column, three products per row on desktop, and vertical filters. Other column and sidebar options apply when Standard is selected."
   },
   "categories": {
     "basic": "Grundläggande",

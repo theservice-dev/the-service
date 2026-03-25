@@ -577,7 +577,10 @@
     "x_position": "横位置",
     "y_position": "縦位置",
     "enable_sticky_add_to_cart": "固定「カートに追加」バー",
-    "sticky_add_to_cart": "固定「カートに追加」"
+    "sticky_add_to_cart": "固定「カートに追加」",
+    "desktop_product_columns": "Desktop product columns",
+    "facet_sidebar_width": "Filter sidebar width",
+    "collection_listing_layout": "Product listing layout"
   },
   "options": {
     "apple": "Apple",
@@ -851,7 +854,11 @@
     "subtle_zoom": "ズーム",
     "with_hints": "ヒント付き",
     "below_media": "メディアの下",
-    "full_frame": "フルフレーム"
+    "full_frame": "フルフレーム",
+    "desktop_columns_2": "2",
+    "desktop_columns_3": "3",
+    "desktop_columns_4": "4",
+    "plp_sidebar": "Sidebar filters"
   },
   "content": {
     "advanced": "高度な設定",
@@ -1085,7 +1092,10 @@
     "pills_usage": "適用された絞り込み、ディスカウントコード、検索候補に使用されます",
     "hide_logo_on_home_page_help": "ロゴは、固定ヘッダーが有効な場合は表示されたままになります",
     "media_type_info": "機能はメニューリンクから入力されます",
-    "logo_height": "ヘッダーのロゴにのみ影響します"
+    "logo_height": "ヘッダーのロゴにのみ影響します",
+    "desktop_product_columns": "Auto fills the row using card size. Fixed values keep that many columns on desktop.",
+    "facet_sidebar_width": "Applies when the Filters block uses vertical layout. Narrow uses a slimmer left column.",
+    "collection_listing_layout": "Sidebar filters uses a narrow left column, three products per row on desktop, and vertical filters. Other column and sidebar options apply when Standard is selected."
   },
   "categories": {
     "product_list": "特集コレクション",
