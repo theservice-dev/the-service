@@ -61,6 +61,11 @@
       assign media_fit = block_settings.constrain_to_viewport
     endif
   endif
+
+  assign card_border_radius = block_settings.border_radius
+  if settings.product_corner_radius > card_border_radius
+    assign card_border_radius = settings.product_corner_radius
+  endif
 %}
 
 <div
@@ -68,6 +73,7 @@
   class="card-gallery card-gallery-{{ block.id }} spacing-style border-style{% if has_badges %} card-gallery--badge-{{ badge_position }}{% endif %}"
   style="
     {% render 'border-override', settings: block_settings %}
+    --border-radius: {{ card_border_radius }}px;
     {% render 'spacing-style', settings: block_settings %}
     --gallery-aspect-ratio: {{ ratio }};
   "

@@ -2130,7 +2130,7 @@
         "step": 1,
         "unit": "px",
         "label": "t:settings.product_corner_radius",
-        "default": 0
+        "default": 8
       },
       {
         "type": "range",
