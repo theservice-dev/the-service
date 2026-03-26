@@ -23,7 +23,7 @@
             "icons_style": "chevron_large",
             "slideshow_controls_style": "thumbnails",
             "slideshow_mobile_controls_style": "thumbnails",
-            "thumbnail_position": "bottom",
+            "thumbnail_position": "left",
             "thumbnail_width": 72,
             "thumbnail_radius": 4,
             "aspect_ratio": "adapt",
