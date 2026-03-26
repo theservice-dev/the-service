@@ -1089,6 +1089,7 @@
     "show_count": "Show count",
     "show_date": "Date",
     "show_filter_label": "Text labels for applied filters",
+    "show_filters_title": "Show 'Filters' heading",
     "show_grid_layout_selector": "Show grid layout selector",
     "show_inventory_quantity": "Show low stock quantity",
     "show_pickup_availability": "Show pickup availability",

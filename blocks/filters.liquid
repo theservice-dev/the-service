@@ -97,7 +97,7 @@
       class="facets facets--horizontal facets-controls-wrapper spacing-style"
       style="{% render 'spacing-style', settings: block_settings %}{% if block_settings.text_label_case == 'uppercase' %} --facet-label-transform: uppercase;{% endif %}"
     >
-      {% if block_settings.enable_filtering %}
+      {% if block_settings.enable_filtering and block_settings.show_filters_title %}
         <h4 class="facets--filters-title">{{ 'content.filters' | t }}</h4>
       {% endif %}
 
@@ -1373,6 +1373,13 @@
       "id": "show_swatch_label",
       "label": "t:settings.show_swatch_label",
       "default": false,
+      "visible_if": "{{ block.settings.enable_filtering == true }}"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters_title",
+      "label": "t:settings.show_filters_title",
+      "default": true,
       "visible_if": "{{ block.settings.enable_filtering == true }}"
     },
     {

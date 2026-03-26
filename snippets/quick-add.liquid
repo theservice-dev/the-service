@@ -145,20 +145,20 @@
   .quick-add__button {
     display: var(--quick-add-mobile-display, none);
     align-items: center;
-    background: linear-gradient(var(--color-background) 0 100%) padding-box;
+    background-color: var(--button-background-color);
     padding: 0;
     border-radius: 50px;
-    border: 2px solid hsl(0 0% 0% / 0.15);
+    border: none;
+    box-shadow: inset 0 0 0 var(--button-border-width) var(--button-border-color);
     height: var(--button-size-md);
     cursor: pointer;
     opacity: var(--quick-add-mobile-opacity, 0);
     overflow: hidden;
-    color: var(--color-foreground);
+    color: var(--button-color);
     pointer-events: all;
     position: absolute;
     right: max(var(--quick-add-right), calc((var(--border-radius) + var(--quick-add-right)) * (1 - cos(45deg))));
     bottom: max(var(--quick-add-bottom), calc((var(--border-radius) + var(--quick-add-bottom)) * (1 - cos(45deg))));
-    backdrop-filter: blur(20px) saturate(180%);
 
     &:active {
       scale: 0.99;
@@ -188,7 +188,7 @@
   }
 
   .quick-add__button .add-to-cart-text {
-    background: var(--color-background);
+    background: var(--button-background-color);
     overflow: hidden;
     border-radius: 50px;
     height: 100%;
