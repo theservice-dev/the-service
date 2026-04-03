@@ -34,19 +34,22 @@
       assign grid_template_rows = grid_template_rows | replace: '50dvh', '40dvh'
       assign grid_template_rows_desktop = grid_template_rows_desktop | replace: '70dvh', '60dvh'
   endcase
+
+  assign media_fit_value = media_fit | default: 'cover'
+  assign slide_style = '--slideshow-timeline: --slide-' | append: index | append: '; --product-media-fit: ' | append: media_fit_value | append: '; ' | append: grid_template_rows | append: ' ' | append: grid_template_rows_desktop
+  if style != blank
+    assign slide_style = slide_style | append: ' ' | append: style
+  endif
 -%}
 
 <slideshow-slide
   ref="slides[]"
   aria-hidden="{% if index == 0 %}false{% else %}true{% endif %}"
-  style="--slideshow-timeline: --slide-{{ index }}; --product-media-fit: {{ media_fit | default: 'cover' }}; {{ grid_template_rows }} {{ grid_template_rows_desktop }}"
+  style="{{ slide_style | strip }}"
   {% if class != blank %}
     class="{{ class }}"
   {% endif %}
   {{ attributes }}
-  {% if style != blank %}
-    style="{{ style }}"
-  {% endif %}
   {% if slide_id != blank %}
     slide-id="{{ slide_id }}"
   {% endif %}
@@ -56,7 +59,6 @@
   {% if navigate_to_slide %}
     on:click="/select/{{ index }}"
   {% endif %}
-  {{ attributes }}
 >
   {{ children }}
 </slideshow-slide>
