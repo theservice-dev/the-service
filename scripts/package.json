@@ -1,0 +1,17 @@
+{
+  "name": "the-service-scripts",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "One-off maintenance scripts for the-service Shopify store.",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "shaka": "node populate-shaka-images.mjs",
+    "shaka:apply": "node populate-shaka-images.mjs --apply"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

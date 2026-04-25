@@ -179,16 +179,35 @@
       %}
     </a>
   {% elsif product != blank and product.media.size == 0 %}
-    <product-title class="product-card-gallery__title-placeholder">
+    {%- capture placeholder_image -%}
+      {% render 'product-placeholder-image',
+        product: product,
+        sizes: image_sizes,
+        loading: 'lazy',
+        class: 'product-media__image'
+      %}
+    {%- endcapture -%}
+    {% if placeholder_image != blank %}
       <a
         class="contents"
-        ref="productTitleLink"
+        ref="cardGalleryLink"
         href="{{ product.selected_or_first_available_variant.url }}"
-        aria-hidden="true"
+        aria-label="{{- product.title -}}"
       >
-        <span class="title-text">{{- product.title -}}</span>
+        {{ placeholder_image }}
       </a>
-    </product-title>
+    {% else %}
+      <product-title class="product-card-gallery__title-placeholder">
+        <a
+          class="contents"
+          ref="productTitleLink"
+          href="{{ product.selected_or_first_available_variant.url }}"
+          aria-hidden="true"
+        >
+          <span class="title-text">{{- product.title -}}</span>
+        </a>
+      </product-title>
+    {% endif %}
   {% elsif product == blank %}
     {% liquid
       capture placeholder_image

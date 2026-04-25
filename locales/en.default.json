@@ -327,6 +327,11 @@
       "expired": "Expired"
     }
   },
+  "placeholder": {
+    "tag": "Placeholder",
+    "tag_aria": "Placeholder image, no real product image yet",
+    "alt_for_product": "Placeholder image for {{ title }}"
+  },
   "placeholders": {
     "password": "Password",
     "search": "Search",

@@ -1,0 +1,19 @@
+{"ts":"2026-04-22T19:37:54.501Z","level":"info","event":"run_start","apply":false,"sourceOnly":true,"threshold":0.55,"limit":null,"store":"your-store.myshopify.com","apiVersion":"2025-01","logPath":"C:\\Users\\User\\Documents\\Web Projects\\the-service\\the-service\\scripts\\logs\\run-2026-04-22T19-37-54-499Z.log"}
+{"ts":"2026-04-22T19:37:54.503Z","level":"info","event":"source_fetch_collection","page":1,"url":"https://www.shakawear.com/collections/t-shirts"}
+{"ts":"2026-04-22T19:37:54.942Z","level":"info","event":"source_collection_handles","page":1,"pageHandles":12,"newHandles":12}
+{"ts":"2026-04-22T19:37:55.151Z","level":"info","event":"source_fetch_collection","page":2,"url":"https://www.shakawear.com/collections/t-shirts?page=2"}
+{"ts":"2026-04-22T19:37:55.309Z","level":"info","event":"source_collection_handles","page":2,"pageHandles":12,"newHandles":0}
+{"ts":"2026-04-22T19:37:55.309Z","level":"info","event":"source_handles_total","count":12}
+{"ts":"2026-04-22T19:37:55.527Z","level":"info","event":"source_product_ok","handle":"7-5oz-max-heavyweight-garment-dye","title":"7.5oz Max Heavyweight Garment Dye","fingerprint":"garmentdye","imageCount":54}
+{"ts":"2026-04-22T19:37:55.542Z","level":"info","event":"source_product_ok","handle":"active-short-sleeve","title":"6.0oz Active Short Sleeve","fingerprint":"shortsleeve","imageCount":1}
+{"ts":"2026-04-22T19:37:55.594Z","level":"info","event":"source_product_ok","handle":"7-5-oz-max-heavyweight-short-sleeve","title":"7.5oz Max Heavyweight Short Sleeve","fingerprint":"shortsleeve","imageCount":69}
+{"ts":"2026-04-22T19:37:55.991Z","level":"info","event":"source_product_ok","handle":"7-5oz-max-heavyweight-long-sleeve","title":"7.5oz Max Heavyweight Long Sleeve","fingerprint":"longsleeve","imageCount":30}
+{"ts":"2026-04-22T19:37:56.001Z","level":"info","event":"source_product_ok","handle":"6-2oz-v-neck-short-sleeve","title":"6.2oz V-Neck Short Sleeve","fingerprint":"shortsleeve","imageCount":1}
+{"ts":"2026-04-22T19:37:56.010Z","level":"info","event":"source_product_ok","handle":"6-0oz-raglan","title":"6.0oz Raglan","fingerprint":"raglan","imageCount":1}
+{"ts":"2026-04-22T19:37:56.349Z","level":"info","event":"source_product_ok","handle":"7-5oz-max-heavyweight-oversized-long-sleeve","title":"7.5oz Max Heavyweight Oversized Long Sleeve","fingerprint":"longsleeve","imageCount":25}
+{"ts":"2026-04-22T19:37:56.368Z","level":"info","event":"source_product_ok","handle":"7-5oz-max-heavyweight-garment-dye-drop-shoulder","title":"7.5oz Max Heavyweight Garment Dye Drop Shoulder","fingerprint":"dropshoulder","imageCount":29}
+{"ts":"2026-04-22T19:37:56.381Z","level":"info","event":"source_product_ok","handle":"7-5oz-max-heavyweight-oversized-tee","title":"7.5oz Max Heavyweight Oversized Tee","fingerprint":"oversizedtee","imageCount":44}
+{"ts":"2026-04-22T19:37:56.798Z","level":"info","event":"source_product_ok","handle":"garment-dye-designer-tee","title":"9.0oz Garment Dye Designer T-Shirt","fingerprint":"designertee","imageCount":1}
+{"ts":"2026-04-22T19:37:56.871Z","level":"info","event":"source_product_ok","handle":"9-0oz-heavyweight-thermal","title":"9.0oz Heavyweight Thermal","fingerprint":"thermal","imageCount":2}
+{"ts":"2026-04-22T19:37:57.087Z","level":"info","event":"source_product_ok","handle":"max-heavyweight-cropped-tee","title":"7.5oz Max Heavyweight Cropped Tee","fingerprint":"croppedtee","imageCount":36}
+{"ts":"2026-04-22T19:37:57.296Z","level":"info","event":"source_loaded","count":12}

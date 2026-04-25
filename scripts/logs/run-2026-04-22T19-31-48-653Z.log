@@ -1,0 +1,19 @@
+{"ts":"2026-04-22T19:31:48.654Z","level":"info","event":"run_start","apply":false,"sourceOnly":true,"threshold":0.55,"limit":null,"store":"your-store.myshopify.com","apiVersion":"2025-01","logPath":"C:\\Users\\User\\Documents\\Web Projects\\the-service\\the-service\\scripts\\logs\\run-2026-04-22T19-31-48-653Z.log"}
+{"ts":"2026-04-22T19:31:48.656Z","level":"info","event":"source_fetch_collection","page":1,"url":"https://www.shakawear.com/collections/t-shirts"}
+{"ts":"2026-04-22T19:31:48.975Z","level":"info","event":"source_collection_handles","page":1,"pageHandles":12,"newHandles":12}
+{"ts":"2026-04-22T19:31:49.178Z","level":"info","event":"source_fetch_collection","page":2,"url":"https://www.shakawear.com/collections/t-shirts?page=2"}
+{"ts":"2026-04-22T19:31:49.338Z","level":"info","event":"source_collection_handles","page":2,"pageHandles":12,"newHandles":0}
+{"ts":"2026-04-22T19:31:49.338Z","level":"info","event":"source_handles_total","count":12}
+{"ts":"2026-04-22T19:31:49.560Z","level":"info","event":"source_product_ok","handle":"7-5-oz-max-heavyweight-short-sleeve","title":"7.5oz Max Heavyweight Short Sleeve","imageCount":210}
+{"ts":"2026-04-22T19:31:49.964Z","level":"info","event":"source_product_ok","handle":"active-short-sleeve","title":"Cotton Sports Shirt | Industry Leading | Shaka Wear","imageCount":263}
+{"ts":"2026-04-22T19:31:50.190Z","level":"info","event":"source_product_ok","handle":"7-5oz-max-heavyweight-garment-dye","title":"Cotton Knit T-Shirts | LA Streetwear Roots | Shaka Wear","imageCount":200}
+{"ts":"2026-04-22T19:31:50.759Z","level":"info","event":"source_product_ok","handle":"7-5oz-max-heavyweight-long-sleeve","title":"Heavyweight Long Sleeve Shirt | Great Value | Shaka Wear","imageCount":167}
+{"ts":"2026-04-22T19:31:50.866Z","level":"info","event":"source_product_ok","handle":"6-2oz-v-neck-short-sleeve","title":"6.2oz V-Neck Short Sleeve","imageCount":197}
+{"ts":"2026-04-22T19:31:50.891Z","level":"info","event":"source_product_ok","handle":"6-0oz-raglan","title":"6.0oz Raglan","imageCount":222}
+{"ts":"2026-04-22T19:31:51.422Z","level":"info","event":"source_product_ok","handle":"7-5oz-max-heavyweight-oversized-long-sleeve","title":"Oversized Long Sleeve Shirt | Urban Fashion | Shaka Wear","imageCount":139}
+{"ts":"2026-04-22T19:31:51.476Z","level":"info","event":"source_product_ok","handle":"7-5oz-max-heavyweight-garment-dye-drop-shoulder","title":"Shoulder Drop Shirt | Minority-Owned Brand | Shaka Wear","imageCount":125}
+{"ts":"2026-04-22T19:31:51.523Z","level":"info","event":"source_product_ok","handle":"7-5oz-max-heavyweight-oversized-tee","title":"7.5oz Max Heavyweight Oversized Tee","imageCount":158}
+{"ts":"2026-04-22T19:31:51.951Z","level":"info","event":"source_product_ok","handle":"garment-dye-designer-tee","title":"Designer Tee | Hassle-Free Apparel Returns | Shaka Wear","imageCount":140}
+{"ts":"2026-04-22T19:31:52.048Z","level":"info","event":"source_product_ok","handle":"9-0oz-heavyweight-thermal","title":"Thick Thermal | Affordable Streetwear | Shaka Wear","imageCount":128}
+{"ts":"2026-04-22T19:31:52.341Z","level":"info","event":"source_product_ok","handle":"max-heavyweight-cropped-tee","title":"7.5oz Max Heavyweight Cropped Tee","imageCount":134}
+{"ts":"2026-04-22T19:31:52.554Z","level":"info","event":"source_loaded","count":12}

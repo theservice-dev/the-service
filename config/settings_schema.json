@@ -2110,6 +2110,62 @@
     ]
   },
   {
+    "name": "t:names.placeholder_preview",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "t:content.placeholder_preview_info"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_imageless_placeholder",
+        "label": "t:settings.show_imageless_placeholder",
+        "default": false
+      },
+      {
+        "type": "header",
+        "content": "t:settings.placeholder_images",
+        "info": "t:settings.placeholder_images_info"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_1",
+        "label": "t:settings.placeholder_image_n",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_2",
+        "label": "t:settings.placeholder_image_n",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_3",
+        "label": "t:settings.placeholder_image_n",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_4",
+        "label": "t:settings.placeholder_image_n",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_5",
+        "label": "t:settings.placeholder_image_n",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_6",
+        "label": "t:settings.placeholder_image_n",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      }
+    ]
+  },
+  {
     "name": "t:names.search",
     "settings": [
       {

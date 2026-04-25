@@ -1,0 +1,157 @@
+{%- doc -%}
+  Renders a placeholder image for products that have no media when the
+  global "Placeholder image preview" feature is enabled in theme settings.
+
+  Picks one image from the merchant-curated placeholder pool deterministically
+  based on the product's id, so the same imageless product always shows the
+  same placeholder across page loads. Overlays a subtle "Placeholder" tag so
+  the image is never mistaken for real product content.
+
+  This is a temporary preview-only feature meant to visualize how the storefront
+  will look once every product has real media. Disable the global toggle once
+  real images are uploaded.
+
+  Renders nothing when:
+    - `settings.show_imageless_placeholder` is false
+    - the product already has media (`product.media.size > 0`)
+    - the merchant has not picked any placeholder images
+
+  @param {object} product - The product object (required).
+  @param {string} [widths] - The widths attribute for the responsive image.
+  @param {string} [sizes] - The sizes attribute for the responsive image.
+  @param {string} [loading] - The loading attribute for the image (default 'lazy').
+  @param {string} [class] - Additional classes on the <img> element.
+  @param {string} [style] - Additional inline styles on the <img> element.
+  @param {string} [wrapper_class] - Additional classes on the wrapper <div>.
+
+  @example
+  {% render 'product-placeholder-image',
+    product: product,
+    sizes: '(min-width: 750px) 50vw, 100vw',
+    loading: 'lazy'
+  %}
+{%- enddoc -%}
+
+{%- liquid
+  assign valid_count = 0
+  for i in (1..6)
+    assign key = 'placeholder_image_' | append: i
+    assign img_check = settings[key]
+    if img_check != blank
+      assign valid_count = valid_count | plus: 1
+    endif
+  endfor
+
+  assign should_render = false
+  if settings.show_imageless_placeholder and product != blank and product.media.size == 0 and valid_count > 0
+    assign should_render = true
+  endif
+
+  assign image_loading = loading | default: 'lazy'
+  assign image_widths = widths | default: '240, 352, 832, 1200, 1600, 1920, 2560, 3840'
+  assign image_class = class | default: ''
+  assign wrapper_extra_class = wrapper_class | default: ''
+-%}
+
+{%- if should_render -%}
+  {%- liquid
+    assign target_index = product.id | modulo: valid_count
+    assign cursor = -1
+    assign chosen = blank
+    for i in (1..6)
+      assign key = 'placeholder_image_' | append: i
+      assign img_pick = settings[key]
+      if img_pick != blank
+        assign cursor = cursor | plus: 1
+        if cursor == target_index
+          assign chosen = img_pick
+        endif
+      endif
+    endfor
+  -%}
+  {%- if chosen != blank -%}
+    {%- capture placeholder_alt -%}{{- 'placeholder.alt_for_product' | t: title: product.title -}}{%- endcapture -%}
+    <div
+      class="placeholder-preview {{ wrapper_extra_class }}"
+      data-placeholder-preview="true"
+    >
+      {{
+        chosen
+        | image_url: width: 3840
+        | image_tag:
+          widths: image_widths,
+          sizes: sizes,
+          loading: image_loading,
+          class: image_class,
+          alt: placeholder_alt,
+          style: style
+      }}
+      <span
+        class="placeholder-preview__tag"
+        aria-label="{{ 'placeholder.tag_aria' | t }}"
+      >
+        {{- 'placeholder.tag' | t -}}
+      </span>
+    </div>
+  {%- endif -%}
+{%- endif -%}
+
+{% stylesheet %}
+  .placeholder-preview {
+    position: relative;
+    display: block;
+    width: 100%;
+    aspect-ratio: var(--gallery-aspect-ratio, var(--ratio, 1));
+    overflow: hidden;
+  }
+
+  .placeholder-preview > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+
+  /* Subtle, almost imperceptible tag in the corner of the image.
+     The text content + aria-label still expose the meaning to screen readers
+     and keyboard users at full contrast. */
+  .placeholder-preview__tag {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+    color: rgb(var(--color-foreground-rgb) / var(--opacity-subdued-text));
+    font-size: 0.6875rem;
+    line-height: 1.4;
+    letter-spacing: 0.02em;
+    opacity: 0.5;
+    text-transform: lowercase;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  /* Restore full contrast for users who need it. WCAG 1.4.11 compliance. */
+  @media (prefers-contrast: more) {
+    .placeholder-preview__tag {
+      opacity: 1;
+      color: var(--color-foreground);
+      background-color: var(--color-background);
+      border: 1px solid currentColor;
+    }
+  }
+
+  @media (forced-colors: active) {
+    .placeholder-preview__tag {
+      opacity: 1;
+      forced-color-adjust: none;
+      color: CanvasText;
+      background-color: Canvas;
+      border: 1px solid CanvasText;
+    }
+  }
+{% endstylesheet %}

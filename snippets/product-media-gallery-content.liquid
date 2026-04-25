@@ -299,6 +299,33 @@
     {{ 'product-apparel-1' | placeholder_svg_tag: 'placeholder-image' }}
   </div>
 {% else %}
+  {%- assign pdp_placeholder_image = '' -%}
+  {%- if selected_product.media.size == 0 -%}
+    {%- capture pdp_placeholder_image -%}
+      {% render 'product-placeholder-image',
+        product: selected_product,
+        sizes: '(min-width: 750px) 50vw, 100vw',
+        loading: 'eager',
+        wrapper_class: 'product-media product-media--placeholder-preview'
+      %}
+    {%- endcapture -%}
+    {%- assign pdp_placeholder_image = pdp_placeholder_image | strip -%}
+  {%- endif -%}
+  {% if pdp_placeholder_image != blank %}
+    <div
+      class="
+        spacing-style
+        sticky-content
+        media-gallery
+        media-gallery--placeholder-preview
+        {% if block_settings.extend_media %}media-gallery--extend{% endif %}
+      "
+      style="{% render 'spacing-style', settings: block_settings %} --media-radius: {{ block_settings.media_radius }}px;{% unless block_settings.aspect_ratio == 'adapt' %} --gallery-aspect-ratio: {{ block_settings.aspect_ratio }};{% endunless %}"
+      {{ block_shopify_attributes }}
+    >
+      {{ pdp_placeholder_image }}
+    </div>
+  {% else %}
   <media-gallery
     class="
       spacing-style
@@ -593,6 +620,7 @@
       </script>
     {%- endif -%}
   </media-gallery>
+  {% endif %}
 {% endif %}
 
 {% stylesheet %}
