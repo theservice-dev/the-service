@@ -2128,40 +2128,328 @@
         "info": "t:settings.placeholder_images_info"
       },
       {
+        "type": "header",
+        "content": "t:settings.placeholder_image_1_header",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
         "type": "image_picker",
         "id": "placeholder_image_1",
-        "label": "t:settings.placeholder_image_n",
+        "label": "t:settings.placeholder_image_1_label",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_1_2",
+        "label": "t:settings.placeholder_image_2_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_1 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_1_3",
+        "label": "t:settings.placeholder_image_3_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_1_2 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_1_4",
+        "label": "t:settings.placeholder_image_4_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_1_3 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_1_5",
+        "label": "t:settings.placeholder_image_5_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_1_4 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_1_6",
+        "label": "t:settings.placeholder_image_6_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_1_5 != blank }}"
+      },
+      {
+        "type": "collection_list",
+        "id": "placeholder_image_1_collections",
+        "label": "t:settings.placeholder_image_collections",
+        "info": "t:settings.placeholder_image_collections_info"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_image_1_categories",
+        "label": "t:settings.placeholder_image_categories",
+        "info": "t:settings.placeholder_image_categories_info",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_1 != blank }}"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.placeholder_image_2_header",
         "visible_if": "{{ settings.show_imageless_placeholder }}"
       },
       {
         "type": "image_picker",
         "id": "placeholder_image_2",
-        "label": "t:settings.placeholder_image_n",
+        "label": "t:settings.placeholder_image_1_label",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_2_2",
+        "label": "t:settings.placeholder_image_2_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_2 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_2_3",
+        "label": "t:settings.placeholder_image_3_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_2_2 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_2_4",
+        "label": "t:settings.placeholder_image_4_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_2_3 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_2_5",
+        "label": "t:settings.placeholder_image_5_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_2_4 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_2_6",
+        "label": "t:settings.placeholder_image_6_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_2_5 != blank }}"
+      },
+      {
+        "type": "collection_list",
+        "id": "placeholder_image_2_collections",
+        "label": "t:settings.placeholder_image_collections",
+        "info": "t:settings.placeholder_image_collections_info"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_image_2_categories",
+        "label": "t:settings.placeholder_image_categories",
+        "info": "t:settings.placeholder_image_categories_info",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_2 != blank }}"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.placeholder_image_3_header",
         "visible_if": "{{ settings.show_imageless_placeholder }}"
       },
       {
         "type": "image_picker",
         "id": "placeholder_image_3",
-        "label": "t:settings.placeholder_image_n",
+        "label": "t:settings.placeholder_image_1_label",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_3_2",
+        "label": "t:settings.placeholder_image_2_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_3 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_3_3",
+        "label": "t:settings.placeholder_image_3_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_3_2 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_3_4",
+        "label": "t:settings.placeholder_image_4_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_3_3 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_3_5",
+        "label": "t:settings.placeholder_image_5_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_3_4 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_3_6",
+        "label": "t:settings.placeholder_image_6_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_3_5 != blank }}"
+      },
+      {
+        "type": "collection_list",
+        "id": "placeholder_image_3_collections",
+        "label": "t:settings.placeholder_image_collections",
+        "info": "t:settings.placeholder_image_collections_info"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_image_3_categories",
+        "label": "t:settings.placeholder_image_categories",
+        "info": "t:settings.placeholder_image_categories_info",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_3 != blank }}"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.placeholder_image_4_header",
         "visible_if": "{{ settings.show_imageless_placeholder }}"
       },
       {
         "type": "image_picker",
         "id": "placeholder_image_4",
-        "label": "t:settings.placeholder_image_n",
+        "label": "t:settings.placeholder_image_1_label",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_4_2",
+        "label": "t:settings.placeholder_image_2_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_4 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_4_3",
+        "label": "t:settings.placeholder_image_3_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_4_2 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_4_4",
+        "label": "t:settings.placeholder_image_4_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_4_3 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_4_5",
+        "label": "t:settings.placeholder_image_5_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_4_4 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_4_6",
+        "label": "t:settings.placeholder_image_6_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_4_5 != blank }}"
+      },
+      {
+        "type": "collection_list",
+        "id": "placeholder_image_4_collections",
+        "label": "t:settings.placeholder_image_collections",
+        "info": "t:settings.placeholder_image_collections_info"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_image_4_categories",
+        "label": "t:settings.placeholder_image_categories",
+        "info": "t:settings.placeholder_image_categories_info",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_4 != blank }}"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.placeholder_image_5_header",
         "visible_if": "{{ settings.show_imageless_placeholder }}"
       },
       {
         "type": "image_picker",
         "id": "placeholder_image_5",
-        "label": "t:settings.placeholder_image_n",
+        "label": "t:settings.placeholder_image_1_label",
+        "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_5_2",
+        "label": "t:settings.placeholder_image_2_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_5 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_5_3",
+        "label": "t:settings.placeholder_image_3_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_5_2 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_5_4",
+        "label": "t:settings.placeholder_image_4_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_5_3 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_5_5",
+        "label": "t:settings.placeholder_image_5_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_5_4 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_5_6",
+        "label": "t:settings.placeholder_image_6_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_5_5 != blank }}"
+      },
+      {
+        "type": "collection_list",
+        "id": "placeholder_image_5_collections",
+        "label": "t:settings.placeholder_image_collections",
+        "info": "t:settings.placeholder_image_collections_info"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_image_5_categories",
+        "label": "t:settings.placeholder_image_categories",
+        "info": "t:settings.placeholder_image_categories_info",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_5 != blank }}"
+      },
+      {
+        "type": "header",
+        "content": "t:settings.placeholder_image_6_header",
         "visible_if": "{{ settings.show_imageless_placeholder }}"
       },
       {
         "type": "image_picker",
         "id": "placeholder_image_6",
-        "label": "t:settings.placeholder_image_n",
+        "label": "t:settings.placeholder_image_1_label",
         "visible_if": "{{ settings.show_imageless_placeholder }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_6_2",
+        "label": "t:settings.placeholder_image_2_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_6 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_6_3",
+        "label": "t:settings.placeholder_image_3_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_6_2 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_6_4",
+        "label": "t:settings.placeholder_image_4_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_6_3 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_6_5",
+        "label": "t:settings.placeholder_image_5_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_6_4 != blank }}"
+      },
+      {
+        "type": "image_picker",
+        "id": "placeholder_image_6_6",
+        "label": "t:settings.placeholder_image_6_label",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_6_5 != blank }}"
+      },
+      {
+        "type": "collection_list",
+        "id": "placeholder_image_6_collections",
+        "label": "t:settings.placeholder_image_collections",
+        "info": "t:settings.placeholder_image_collections_info"
+      },
+      {
+        "type": "text",
+        "id": "placeholder_image_6_categories",
+        "label": "t:settings.placeholder_image_categories",
+        "info": "t:settings.placeholder_image_categories_info",
+        "visible_if": "{{ settings.show_imageless_placeholder and settings.placeholder_image_6 != blank }}"
       }
     ]
   },

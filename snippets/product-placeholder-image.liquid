@@ -2,10 +2,14 @@
   Renders a placeholder image for products that have no media when the
   global "Placeholder image preview" feature is enabled in theme settings.
 
-  Picks one image from the merchant-curated placeholder pool deterministically
-  based on the product's id, so the same imageless product always shows the
-  same placeholder across page loads. Overlays a subtle "Placeholder" tag so
-  the image is never mistaken for real product content.
+  Each placeholder group can hold up to 6 images. For an imageless product,
+  every image from every group whose collections / categories filter matches
+  the product is added to a pool; if no group matches, every image from the
+  groups with no filter (the "general" pool) is used instead. One image is
+  picked deterministically from the pool using the product's id, so the same
+  product always shows the same placeholder, and neighbouring products are
+  spread across the available images. A subtle "Placeholder" tag is overlaid
+  so the image is never mistaken for real product content.
 
   This is a temporary preview-only feature meant to visualize how the storefront
   will look once every product has real media. Disable the global toggle once
@@ -33,17 +37,122 @@
 {%- enddoc -%}
 
 {%- liquid
-  assign valid_count = 0
+  assign product_type_normalized = product.type | default: '' | downcase | strip
+  assign product_title_normalized = product.title | default: '' | downcase
+
+  assign product_tags_normalized = '|'
+  for tag_value in product.tags
+    assign tag_clean = tag_value | downcase | strip
+    assign product_tags_normalized = product_tags_normalized | append: tag_clean | append: '|'
+  endfor
+
+  assign product_collection_ids = '|'
+  for c in product.collections
+    assign product_collection_ids = product_collection_ids | append: c.id | append: '|'
+  endfor
+
+  assign matching_keys = ''
+  assign general_keys = ''
   for i in (1..6)
-    assign key = 'placeholder_image_' | append: i
-    assign img_check = settings[key]
-    if img_check != blank
-      assign valid_count = valid_count | plus: 1
+    assign primary_key = 'placeholder_image_' | append: i
+    assign primary_img = settings[primary_key]
+    if primary_img == blank
+      continue
+    endif
+
+    assign coll_key = 'placeholder_image_' | append: i | append: '_collections'
+    assign picked_collections = settings[coll_key]
+    assign has_collection_filter = false
+    if picked_collections != blank and picked_collections.size > 0
+      assign has_collection_filter = true
+    endif
+
+    assign cat_key = 'placeholder_image_' | append: i | append: '_categories'
+    assign cats_raw = settings[cat_key] | default: ''
+    assign cats_clean = cats_raw | strip
+    assign has_category_filter = false
+    if cats_clean != ''
+      assign has_category_filter = true
+    endif
+
+    assign is_general = false
+    if has_collection_filter == false and has_category_filter == false
+      assign is_general = true
+    endif
+
+    assign is_match = false
+    if has_collection_filter
+      for picked in picked_collections
+        assign id_marker = '|' | append: picked.id | append: '|'
+        if product_collection_ids contains id_marker
+          assign is_match = true
+          break
+        endif
+      endfor
+    endif
+
+    if is_match == false and has_category_filter
+      assign cat_list = cats_clean | downcase | split: ','
+      for c in cat_list
+        assign c_clean = c | strip
+        if c_clean == ''
+          continue
+        endif
+        if c_clean == product_type_normalized
+          assign is_match = true
+          break
+        endif
+        assign tag_marker = '|' | append: c_clean | append: '|'
+        if product_tags_normalized contains tag_marker
+          assign is_match = true
+          break
+        endif
+        if product_title_normalized contains c_clean
+          assign is_match = true
+          break
+        endif
+      endfor
+    endif
+
+    if is_general == false and is_match == false
+      continue
+    endif
+
+    assign group_keys = i | append: ','
+    for v in (2..6)
+      assign vkey = 'placeholder_image_' | append: i | append: '_' | append: v
+      assign vimg = settings[vkey]
+      if vimg != blank
+        assign vsuffix = i | append: '_' | append: v
+        assign group_keys = group_keys | append: vsuffix | append: ','
+      endif
+    endfor
+
+    if is_match
+      assign matching_keys = matching_keys | append: group_keys
+    elsif is_general
+      assign general_keys = general_keys | append: group_keys
     endif
   endfor
 
+  assign matching_arr = matching_keys | split: ','
+  assign general_arr = general_keys | split: ','
+
+  assign selected_arr = matching_arr
+  if selected_arr.size == 0
+    assign selected_arr = general_arr
+  endif
+
+  assign chosen = blank
+  if selected_arr.size > 0
+    assign target = product.id | modulo: selected_arr.size
+    assign chosen_key_suffix = selected_arr[target]
+    assign chosen_setting_key = 'placeholder_image_' | append: chosen_key_suffix
+    assign chosen = settings[chosen_setting_key]
+  endif
+
   assign should_render = false
-  if settings.show_imageless_placeholder and product != blank and product.media.size == 0 and valid_count > 0
+  if settings.show_imageless_placeholder and product != blank and product.media.size == 0 and chosen != blank
     assign should_render = true
   endif
 
@@ -54,46 +163,29 @@
 -%}
 
 {%- if should_render -%}
-  {%- liquid
-    assign target_index = product.id | modulo: valid_count
-    assign cursor = -1
-    assign chosen = blank
-    for i in (1..6)
-      assign key = 'placeholder_image_' | append: i
-      assign img_pick = settings[key]
-      if img_pick != blank
-        assign cursor = cursor | plus: 1
-        if cursor == target_index
-          assign chosen = img_pick
-        endif
-      endif
-    endfor
-  -%}
-  {%- if chosen != blank -%}
-    {%- capture placeholder_alt -%}{{- 'placeholder.alt_for_product' | t: title: product.title -}}{%- endcapture -%}
-    <div
-      class="placeholder-preview {{ wrapper_extra_class }}"
-      data-placeholder-preview="true"
+  {%- capture placeholder_alt -%}{{- 'placeholder.alt_for_product' | t: title: product.title -}}{%- endcapture -%}
+  <div
+    class="placeholder-preview {{ wrapper_extra_class }}"
+    data-placeholder-preview="true"
+  >
+    {{
+      chosen
+      | image_url: width: 3840
+      | image_tag:
+        widths: image_widths,
+        sizes: sizes,
+        loading: image_loading,
+        class: image_class,
+        alt: placeholder_alt,
+        style: style
+    }}
+    <span
+      class="placeholder-preview__tag"
+      aria-label="{{ 'placeholder.tag_aria' | t }}"
     >
-      {{
-        chosen
-        | image_url: width: 3840
-        | image_tag:
-          widths: image_widths,
-          sizes: sizes,
-          loading: image_loading,
-          class: image_class,
-          alt: placeholder_alt,
-          style: style
-      }}
-      <span
-        class="placeholder-preview__tag"
-        aria-label="{{ 'placeholder.tag_aria' | t }}"
-      >
-        {{- 'placeholder.tag' | t -}}
-      </span>
-    </div>
-  {%- endif -%}
+      {{- 'placeholder.tag' | t -}}
+    </span>
+  </div>
 {%- endif -%}
 
 {% stylesheet %}
